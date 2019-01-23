@@ -1,6 +1,12 @@
 import React, { Component } from 'react';
 import './App.css';
 import NavBar from './NavBar/NavBar';
+import { library } from '@fortawesome/fontawesome-svg-core'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faUser, faHome, faHeart} from '@fortawesome/free-solid-svg-icons'
+import Home from './Home/Home';
+
+library.add(faUser, faHome, faHeart);
 
 class App extends Component {
   render() {
@@ -8,7 +14,7 @@ class App extends Component {
       <div className="App">
         <NavBar />
         <header className="App-header">
-          <h1>Ashi</h1>
+          <Home />
         </header>
       </div>
     );
