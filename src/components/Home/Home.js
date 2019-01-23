@@ -1,12 +1,14 @@
 import React, { Component } from 'react';
 import './Home.css';
 import background from '../../assets/img/home-background.jpg';
+import SearchBar from '../SearchBar/SearchBar';
 
 class Home extends Component {
   render() {
     return (
       <div style={homeStyle}>
         <div>Where is you school?</div>
+        <SearchBar/>
       </div>
     );
   }
