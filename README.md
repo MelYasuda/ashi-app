@@ -6,7 +6,8 @@
 4. Run "mkdir src/constants"
 5. Run "touch src/constants/FirebaseConfig.js"
 6. Add the code below to FirebaseConfig.js
-```const FirebaseConfig = {
+```
+const FirebaseConfig = {
   your firebase configuration
 }
 
