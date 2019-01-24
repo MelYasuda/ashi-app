@@ -9,7 +9,6 @@ class SignUp extends Component {
 
   handleSignup = (values, {resetForm}) => {
     const {email, password} = values;
-    console.log(email)
     firebase.auth().createUserWithEmailAndPassword(email, password).catch((error) =>   {
       const errorMessage = error.message;
       alert(errorMessage);
@@ -56,9 +55,7 @@ class SignUp extends Component {
                   />
                 <button
                 type="submit"
-                title="Submit"
                 className="btn btn-primary"
-                onClick={handleSubmit}
                 >Submit</button>
               </form>
             )}

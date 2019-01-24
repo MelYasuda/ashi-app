@@ -1,8 +1,18 @@
 import React, { Component } from "react";
 import "./NavBar.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import * as firebase from 'firebase';
 
 class NavBar extends Component {
+
+  handleSignout = () => {
+    firebase.auth().signOut().then(()=> {
+    alert("logout")
+    }).catch(function(error) {
+      alert(error)
+    });
+  }
+
   render() {
     return (
       <div className="NavBar">
@@ -30,7 +40,7 @@ class NavBar extends Component {
                 </a>
               </li>
               <li className="nav-item active">
-                <a className="nav-link" href="#">
+                <a className="nav-link" onClick={this.handleSignout}>
                   Logout
                 </a>
               </li>

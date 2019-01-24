@@ -4,17 +4,32 @@ import NavBar from './NavBar/NavBar';
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { faUser, faHome, faHeart} from '@fortawesome/free-solid-svg-icons'
 import Home from './Home/Home';
-import { Switch, Route } from "react-router-dom";
+import { Switch, Route, Redirect } from "react-router-dom";
 import SignUp from './Auth/SignUp';
 import SignIn from './Auth/SignIn';
 import FirebaseConfig from '../constants/FirebaseConfig.js';
 import * as firebase from 'firebase';
+import CreateListing from './Auth/CreateListing/CreateListing';
 
 firebase.initializeApp(FirebaseConfig);
 
 library.add(faUser, faHome, faHeart);
 
 class App extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      isAuthenticated: false
+    }
+    firebase.auth().onAuthStateChanged( user => {
+      console.log(user)
+      if(user){
+        this.setState({ isAuthenticated: true })
+      }
+    });
+  }
+
+
   render() {
     return (
       <div className="App">
@@ -36,6 +51,13 @@ class App extends Component {
             path="/signin"
             render={props => (
                 <SignIn />
+              )}
+            />
+            <Route 
+            path="/create"
+            render={props => (
+              this.state.isAuthenticated===true ? <CreateListing/> : <Redirect to={{ pathname: '/signin'}}
+              />
               )}
             />
           </Switch>

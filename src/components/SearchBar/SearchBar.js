@@ -7,7 +7,7 @@ class SearchBar extends Component {
       <div className="SearchBar">
         <form>
           <input type="text" className="form-control" placeholder="Enter an address,or city" />
-          <button type="submit" class="btn btn-primary">Search</button>
+          <button type="submit" className="btn btn-primary">Search</button>
         </form>
       </div>
     );
