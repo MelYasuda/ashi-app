@@ -1,0 +1,11 @@
+button {
+  margin-left: 10px
+}
+
+form {
+  display: flex;
+}
+
+.form-control {
+  width: 400px
+}
