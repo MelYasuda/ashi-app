@@ -8,7 +8,7 @@
 6. Add the code below to FirebaseConfig.js
 ```
 const FirebaseConfig = {
-  your firebase configuration
+  //your firebase configuration here
 }
 
 export default FirebaseConfig;
