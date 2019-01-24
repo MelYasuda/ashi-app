@@ -7,6 +7,10 @@ import Home from './Home/Home';
 import { Switch, Route } from "react-router-dom";
 import SignUp from './Auth/SignUp';
 import SignIn from './Auth/SignIn';
+import FirebaseConfig from '../constants/FirebaseConfig.js';
+import * as firebase from 'firebase';
+
+firebase.initializeApp(FirebaseConfig);
 
 library.add(faUser, faHome, faHeart);
 

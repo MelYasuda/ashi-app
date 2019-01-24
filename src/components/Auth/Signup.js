@@ -3,16 +3,17 @@ import './Auth.css';
 import TextForm from '../TextForm/TextForm';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
+import * as firebase from 'firebase';
 
 class SignUp extends Component {
 
   handleSignup = (values, {resetForm}) => {
     const {email, password} = values;
     console.log(email)
-    // firebase.auth().createUserWithEmailAndPassword(email, password).catch((error) =>   {
-    //   const errorMessage = error.message;
-    //   Alert.alert(errorMessage);
-    // })
+    firebase.auth().createUserWithEmailAndPassword(email, password).catch((error) =>   {
+      const errorMessage = error.message;
+      alert(errorMessage);
+    })
   }
 
   render() {

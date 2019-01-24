@@ -3,6 +3,7 @@ import './Auth.css';
 import TextForm from '../TextForm/TextForm';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
+import * as firebase from 'firebase';
 
 class SignIn extends Component {
   render() {
