@@ -7,7 +7,6 @@ import CondNavDisplay from './CondNavDisplay';
 class NavBar extends Component {
 
   handleSignOut = () => {
-    console.log("handleSignOut")
     firebase.auth().signOut().then(()=> {
     alert("logout")
     }).catch(function(error) {

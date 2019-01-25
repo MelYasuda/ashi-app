@@ -4,7 +4,7 @@ import NavBar from './NavBar/NavBar';
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { faUser, faHome, faHeart} from '@fortawesome/free-solid-svg-icons'
 import Home from './Home/Home';
-import { Switch, Route, Redirect } from "react-router-dom";
+import { Switch, Route, Redirect, withRouter } from "react-router-dom";
 import SignUp from './Auth/SignUp';
 import SignIn from './Auth/SignIn';
 import FirebaseConfig from '../constants/FirebaseConfig.js';
@@ -52,7 +52,7 @@ class App extends Component {
             <Route 
             path="/signin"
             render={props => (
-                <SignIn />
+                <SignIn history={this.props.history} />
               )}
             />
             <Route 
@@ -68,4 +68,4 @@ class App extends Component {
   }
 }
 
-export default App;
+export default withRouter(App);
