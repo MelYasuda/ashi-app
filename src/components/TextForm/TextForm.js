@@ -19,7 +19,7 @@ class TextForm extends Component {
         <div className="form-group">
           <label>{label}</label>
           <input
-          type={label==='Password' ? "password" : "text" }
+          type={(label==='Password'||'Confirm Password') ? "password" : "text" }
           className="form-control"
           placeholder={label}
           onChange={this._handleChange}
