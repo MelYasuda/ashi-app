@@ -9,7 +9,7 @@ import SignUp from './Auth/SignUp';
 import SignIn from './Auth/SignIn';
 import FirebaseConfig from '../constants/FirebaseConfig.js';
 import * as firebase from 'firebase';
-import CreateListing from './Auth/CreateListing/CreateListing';
+import CreateListing from './CreateListing/CreateListing';
 
 firebase.initializeApp(FirebaseConfig);
 
