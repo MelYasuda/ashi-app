@@ -25,6 +25,8 @@ class App extends Component {
       console.log(user)
       if(user){
         this.setState({ isAuthenticated: true })
+      } else {
+        this.setState({ isAuthenticated: false })
       }
     });
   }
@@ -33,7 +35,7 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-        <NavBar />
+        <NavBar isSignedIn={this.state.isAuthenticated} />
           <Switch>
             <Route 
             exact path="/"
