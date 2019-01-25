@@ -46,7 +46,7 @@ class App extends Component {
             <Route 
             path="/signup"
             render={props => (
-                <SignUp/>
+                <SignUp history={this.props.history} />
               )}
             />
             <Route 
