@@ -6,13 +6,22 @@ import * as Yup from 'yup';
 import * as firebase from 'firebase';
 
 class SignIn extends Component {
+
+  handleSignin = (values, {resetForm}) => {
+    const {email, password} = values;
+    firebase.auth().signInWithEmailAndPassword(email, password).catch((error) =>   {
+      const errorMessage = error.message;
+      alert(errorMessage);
+    })
+  }
+
   render() {
     return (
       <div className="Auth">
-        <h2>Sign In</h2>
+      <h2>Sign In</h2>
         <Formik 
           initialValues={{ email: '', password: '' }}
-          onSubmit={this.handleSignup}
+          onSubmit={this.handleSignin}
           validationSchema={Yup.object().shape({
             email: Yup.string().required('Email address is required'),
             password: Yup.string().required('Password needs to be provided')
@@ -20,17 +29,17 @@ class SignIn extends Component {
           render={({
             values,
             handleSubmit,
-            setFieldValue,
-            setFieldTouched,
+            handleChange,
+            handleBlur,
             errors,
-            touched,
+            touched
             }) => (
-              <form>
+              <form onSubmit={handleSubmit}>
                 <TextForm
                   label='Email'
                   value={values.email}
-                  onChange={setFieldValue}
-                  onTouch={setFieldTouched}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
                   autoCapitalize="none"
                   name='email'
                   error={touched.email && errors.email}
@@ -38,16 +47,15 @@ class SignIn extends Component {
                 <TextForm
                   label='Password'
                   value={values.password}
-                  onChange={setFieldValue}
-                  onTouch={setFieldTouched}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
                   autoCapitalize="none"
                   name='password'
                   error={touched.password && errors.password}
                   />
                 <button
-                title="Submit"
+                type="submit"
                 className="btn btn-primary"
-                onPress={handleSubmit}
                 >Submit</button>
               </form>
             )}
