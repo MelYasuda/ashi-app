@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import './TextForm.css';
+import PropTypes from 'prop-types';
 
 class TextForm extends Component {
 
@@ -29,6 +30,11 @@ class TextForm extends Component {
       </div>
     );
   }
+}
+
+TextForm.prototTypes ={
+  onChange: PropTypes.func,
+  name: PropTypes.string,
 }
 
 export default TextForm;

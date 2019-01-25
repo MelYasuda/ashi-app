@@ -3,6 +3,7 @@ import "./NavBar.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import * as firebase from 'firebase';
 import CondNavDisplay from './CondNavDisplay';
+import PropTypes from 'prop-types';
 
 class NavBar extends Component {
 
@@ -37,6 +38,10 @@ class NavBar extends Component {
       </div>
     );
   }
+}
+
+NavBar.prototTypes ={
+  isSignedIn: PropTypes.bool
 }
 
 export default NavBar;

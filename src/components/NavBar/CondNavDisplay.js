@@ -1,5 +1,6 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import PropTypes from 'prop-types';
 
 function SignedIn(props){
   return(
@@ -46,6 +47,12 @@ function CondNavDisplay(props){
     return <SignedIn handleSignOut={props.handleSignOut} />;
   }
   return <SignedOut handleSignIn={props.handleSignIn} />;
+}
+
+CondNavDisplay.prototTypes ={
+  handleSignOut: PropTypes.func,
+  handleSignIn: PropTypes.func,
+  isSignedIn: PropTypes.bool
 }
 
 export default CondNavDisplay;
