@@ -25,14 +25,14 @@ class App extends Component {
       console.log(user)
       if(user){
         this.setState({ isAuthenticated: true })
-      } else {
-        this.setState({ isAuthenticated: false })
-      }
+      } 
     });
   }
 
 
   render() {
+    console.log(this.state.isAuthenticated)
+    if(!this.state.isAuthenticated) return null;
     return (
       <div className="App">
         <NavBar isSignedIn={this.state.isAuthenticated} />

@@ -16,7 +16,6 @@ class NavBar extends Component {
   }
 
   render() {
-    console.log(this.props.isSignedIn);
     return (
       <div className="NavBar">
         <nav id="top-navbar" className="navbar navbar-expand-sm">
