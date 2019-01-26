@@ -4,7 +4,12 @@ import PropTypes from 'prop-types';
 
 function SignedIn(props){
   return(
-      <ul className="navbar-nav ml-auto">
+  <ul className="navbar-nav ml-auto">
+    <li className="nav-item active">
+      <a className="nav-link" href="#/create">
+        <FontAwesomeIcon icon="plus" />
+      </a>
+    </li>
     <li className="nav-item active">
       <a className="nav-link" href="#">
         <FontAwesomeIcon icon="heart" />
