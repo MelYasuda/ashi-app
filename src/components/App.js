@@ -19,23 +19,34 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      isAuthenticated: false
+      isAuthenticated: false,
+      isAuthenticating: true
     }
-    firebase.auth().onAuthStateChanged( user => {
-      console.log(user)
-      if(user){
-        this.setState({ isAuthenticated: true })
-      } 
-    });
+    var p = new Promise((resolve, reject)=>{
+      firebase.auth().onAuthStateChanged( user => {
+        if(user){
+          this.setState({ isAuthenticated: true });
+        }
+        resolve()
+      })
+     });
+     
+     p.then(()=>{
+       this.setState({ isAuthenticating: false })
+        console.log(this.state.isAuthenticating)
+      });
   }
 
 
   render() {
-    console.log(this.state.isAuthenticated)
-    if(!this.state.isAuthenticated) return null;
+    console.log("page rendered")
+    if(this.state.isAuthenticating) return null;
     return (
       <div className="App">
-        <NavBar isSignedIn={this.state.isAuthenticated} />
+        <NavBar 
+          isSignedIn={this.state.isAuthenticated}
+          history={this.props.history}
+           />
           <Switch>
             <Route 
             exact path="/"

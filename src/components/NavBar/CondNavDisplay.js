@@ -21,7 +21,7 @@ function SignedIn(props){
       </a>
     </li>
     <li className="nav-item active">
-      <a className="nav-link" onClick={props.handleSignOut}>
+      <a className="nav-link" onClick={props.handleSignOut} href="">
         Sign Out
       </a>
     </li>
