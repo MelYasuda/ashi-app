@@ -2,66 +2,19 @@ import React, { Component } from "react";
 import "./NavBar.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import * as firebase from 'firebase';
-
-function SignedIn(props){
-  return(
-      <ul className="navbar-nav ml-auto">
-    <li className="nav-item active">
-      <a className="nav-link" href="#">
-        <FontAwesomeIcon icon="heart" />
-      </a>
-    </li>
-    <li className="nav-item active">
-      <a className="nav-link" href="#">
-        <FontAwesomeIcon icon="user" />
-      </a>
-    </li>
-    <li className="nav-item active">
-      <a className="nav-link" onClick={props.handleSignout}>
-        Logout
-      </a>
-    </li>
-  </ul>
-  );
-}
-
-function SignedOut(props){
-  return(
-      <ul className="navbar-nav ml-auto">
-    <li className="nav-item active">
-      <a className="nav-link" href="/#/signin">
-        Sign In
-      </a>
-    </li>
-    <li className="nav-item active">
-      <a className="nav-link" href="/#/signup">
-        Sign Up
-      </a>
-    </li>
-  </ul>
-  );
-}
-
-function NavDisplay(props){
-  const isLoggedIn = props.isLoggedIn;
-  if (isLoggedIn) {
-    return <SignedIn handleSignout={props.handleSignout} />;
-  }
-  return <SignedOut handleSignout={props.handleSignout} />;
-}
+import CondNavDisplay from './CondNavDisplay';
+import PropTypes from 'prop-types';
 
 class NavBar extends Component {
 
-  handleSignout = () => {
+  handleSignOut = () => {
     firebase.auth().signOut().then(()=> {
-    alert("logout")
     }).catch(function(error) {
       alert(error)
     });
   }
 
   render() {
-    console.log(this.props.isSignedIn);
     return (
       <div className="NavBar">
         <nav id="top-navbar" className="navbar navbar-expand-sm">
@@ -76,13 +29,17 @@ class NavBar extends Component {
           </div>
 
           <div className="collapse navbar-collapse" id="navbarSupportedContent">
-            <NavDisplay isLoggedIn={this.props.isSignedIn} handleSignout={this.handleSignout}/>
+            <CondNavDisplay isSignedIn={this.props.isSignedIn} handleSignOut={this.handleSignOut}/>
           </div>
 
         </nav>
       </div>
     );
   }
+}
+
+NavBar.prototTypes ={
+  isSignedIn: PropTypes.bool
 }
 
 export default NavBar;

@@ -2,40 +2,51 @@ import React, { Component } from 'react';
 import './App.css';
 import NavBar from './NavBar/NavBar';
 import { library } from '@fortawesome/fontawesome-svg-core'
-import { faUser, faHome, faHeart} from '@fortawesome/free-solid-svg-icons'
+import { faUser, faHome, faHeart, faPlus} from '@fortawesome/free-solid-svg-icons'
 import Home from './Home/Home';
-import { Switch, Route, Redirect } from "react-router-dom";
+import { Switch, Route, Redirect, withRouter } from "react-router-dom";
 import SignUp from './Auth/SignUp';
 import SignIn from './Auth/SignIn';
 import FirebaseConfig from '../constants/FirebaseConfig.js';
 import * as firebase from 'firebase';
-import CreateListing from './Auth/CreateListing/CreateListing';
+import CreateListing from './CreateListing/CreateListing';
 
 firebase.initializeApp(FirebaseConfig);
 
-library.add(faUser, faHome, faHeart);
+library.add(faUser, faHome, faHeart, faPlus);
 
 class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      isAuthenticated: false
+      isAuthenticated: false,
+      isAuthenticating: true
     }
-    firebase.auth().onAuthStateChanged( user => {
-      console.log(user)
-      if(user){
-        this.setState({ isAuthenticated: true })
-      } else {
-        this.setState({ isAuthenticated: false })
-      }
-    });
+    var p = new Promise((resolve, reject)=>{
+      firebase.auth().onAuthStateChanged( user => {
+        if(user){
+          this.setState({ isAuthenticated: true });
+        }
+        resolve()
+      })
+     });
+     
+     p.then(()=>{
+       this.setState({ isAuthenticating: false })
+        console.log(this.state.isAuthenticating)
+      });
   }
 
 
   render() {
+    console.log("page rendered")
+    if(this.state.isAuthenticating) return null;
     return (
       <div className="App">
-        <NavBar isSignedIn={this.state.isAuthenticated} />
+        <NavBar 
+          isSignedIn={this.state.isAuthenticated}
+          history={this.props.history}
+           />
           <Switch>
             <Route 
             exact path="/"
@@ -46,13 +57,13 @@ class App extends Component {
             <Route 
             path="/signup"
             render={props => (
-                <SignUp/>
+                <SignUp history={this.props.history} />
               )}
             />
             <Route 
             path="/signin"
             render={props => (
-                <SignIn />
+                <SignIn history={this.props.history} />
               )}
             />
             <Route 
@@ -68,4 +79,4 @@ class App extends Component {
   }
 }
 
-export default App;
+export default withRouter(App);

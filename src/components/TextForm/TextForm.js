@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import './TextForm.css';
+import PropTypes from 'prop-types';
 
 class TextForm extends Component {
 
@@ -18,7 +19,7 @@ class TextForm extends Component {
         <div className="form-group">
           <label>{label}</label>
           <input
-          type={label==='Password' ? "password" : "text" }
+          type={(label==='Password'|| label==='Confirm Password') ? "password" : "text" }
           className="form-control"
           placeholder={label}
           onChange={this._handleChange}
@@ -29,6 +30,11 @@ class TextForm extends Component {
       </div>
     );
   }
+}
+
+TextForm.prototTypes ={
+  onChange: PropTypes.func,
+  name: PropTypes.string,
 }
 
 export default TextForm;

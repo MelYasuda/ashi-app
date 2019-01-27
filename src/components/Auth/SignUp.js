@@ -12,6 +12,8 @@ class SignUp extends Component {
     firebase.auth().createUserWithEmailAndPassword(email, password).catch((error) =>   {
       const errorMessage = error.message;
       alert(errorMessage);
+    }).then( () => {
+      this.props.history.push("/");
     })
   }
 
@@ -20,11 +22,17 @@ class SignUp extends Component {
       <div className="Auth">
       <h2>Sign Up</h2>
         <Formik 
-          initialValues={{ email: '', password: '' }}
+          initialValues={{ email: '', password: '', confirmPassword: '' }}
           onSubmit={this.handleSignup}
           validationSchema={Yup.object().shape({
             email: Yup.string().required('Email address is required'),
-            password: Yup.string().required('Password needs to be provided')
+            password: Yup.string().required('Password needs to be provided'),
+            confirmPassword: Yup.string()
+              .oneOf(
+                [Yup.ref('password', null)],
+                'Confirm Password must matched Password',
+              )
+              .required('Confirm Password is required'),
           })}
           render={({
             values,
@@ -52,6 +60,15 @@ class SignUp extends Component {
                   autoCapitalize="none"
                   name='password'
                   error={touched.password && errors.password}
+                  />
+                  <TextForm
+                  label='Confirm Password'
+                  value={values.confirmPassword}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  autoCapitalize="none"
+                  name='confirmPassword'
+                  error={touched.confirmPassword && errors.confirmPassword}
                   />
                 <button
                 type="submit"
