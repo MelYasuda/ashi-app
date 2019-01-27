@@ -16,7 +16,7 @@ class Home extends Component {
 
 const homeStyle = {
   backgroundImage: 'url(' + background + ')',
-  height: 92 +'vh',
+  height: 91.8 +'vh',
   width: 100 + '%',
   display: 'flex',
   flexDirection: 'column',
