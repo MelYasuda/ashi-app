@@ -7,9 +7,11 @@ class CreateListing extends Component {
     return (
       <div className="CreateListing">
         <h1>CreateListing</h1>
-        <CreateListingIcon label='Looking For A Roommate' />
-        <CreateListingIcon label='Looking For A Room' />
-        <CreateListingIcon label='Lookng For One Person Apartment' />
+        <div className="row">
+          <CreateListingIcon label='Looking For A Roommate' />
+          <CreateListingIcon label='Looking For A Room' />
+          <CreateListingIcon label='Lookng For One Person Apartment' />
+        </div>
       </div>
     );
   }
