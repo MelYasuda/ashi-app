@@ -20,48 +20,50 @@ class SignIn extends Component {
   render() {
     return (
       <div className="Auth">
-      <h2>Sign In</h2>
-        <Formik 
-          initialValues={{ email: '', password: '' }}
-          onSubmit={this.handleSignin}
-          validationSchema={Yup.object().shape({
-            email: Yup.string().required('Email address is required'),
-            password: Yup.string().required('Password needs to be provided')
-          })}
-          render={({
-            values,
-            handleSubmit,
-            handleChange,
-            handleBlur,
-            errors,
-            touched
-            }) => (
-              <form onSubmit={handleSubmit}>
-                <TextForm
-                  label='Email'
-                  value={values.email}
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                  autoCapitalize="none"
-                  name='email'
-                  error={touched.email && errors.email}
-                  />
-                <TextForm
-                  label='Password'
-                  value={values.password}
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                  autoCapitalize="none"
-                  name='password'
-                  error={touched.password && errors.password}
-                  />
-                <button
-                type="submit"
-                className="btn btn-primary"
-                >Submit</button>
-              </form>
-            )}
-          />
+        <div className='form-border'>
+          <h2>Sign In</h2>
+          <Formik 
+            initialValues={{ email: '', password: '' }}
+            onSubmit={this.handleSignin}
+            validationSchema={Yup.object().shape({
+              email: Yup.string().required('Email address is required'),
+              password: Yup.string().required('Password needs to be provided')
+            })}
+            render={({
+              values,
+              handleSubmit,
+              handleChange,
+              handleBlur,
+              errors,
+              touched
+              }) => (
+                <form onSubmit={handleSubmit}>
+                  <TextForm
+                    label='Email'
+                    value={values.email}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    autoCapitalize="none"
+                    name='email'
+                    error={touched.email && errors.email}
+                    />
+                  <TextForm
+                    label='Password'
+                    value={values.password}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    autoCapitalize="none"
+                    name='password'
+                    error={touched.password && errors.password}
+                    />
+                  <button
+                  type="submit"
+                  className="btn btn-primary"
+                  >Submit</button>
+                </form>
+              )}
+            />
+          </div>
       </div>
     );
   }

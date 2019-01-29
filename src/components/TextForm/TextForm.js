@@ -13,21 +13,18 @@ class TextForm extends Component {
   }
 
   render() {
-    const { label, error, ...rest } = this.props;
+    const { label, error, placeHolder, ...rest } = this.props;
     return (
-      <div className="TextForm">
         <div className="form-group">
-          <label>{label}</label>
           <input
           type={(label==='Password'|| label==='Confirm Password') ? "password" : "text" }
           className="form-control"
-          placeholder={label}
+          placeholder={label==='UserName'?placeHolder:label}
           onChange={this._handleChange}
           onBlur={this._handleTouch}
         {...rest} />
           {error}
         </div>
-      </div>
     );
   }
 }
