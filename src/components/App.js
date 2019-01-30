@@ -10,6 +10,7 @@ import SignIn from './Auth/SignIn';
 import FirebaseConfig from '../constants/FirebaseConfig.js';
 import * as firebase from 'firebase';
 import CreateListing from './CreateListing/CreateListing';
+import Listings from './Listings/Listings';
 
 firebase.initializeApp(FirebaseConfig);
 
@@ -64,6 +65,12 @@ class App extends Component {
             path="/signin"
             render={props => (
                 <SignIn history={this.props.history} />
+              )}
+            />
+            <Route 
+            path="/listings"
+            render={props => (
+                <Listings />
               )}
             />
             <Route 

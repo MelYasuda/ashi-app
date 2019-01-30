@@ -10,7 +10,7 @@ class CreateListing extends Component {
         <div className="row">
           <CreateListingIcon label='Looking For A Roommate' />
           <CreateListingIcon label='Looking For A Room' />
-          <CreateListingIcon label='Lookng For One Person Apartment' />
+          <CreateListingIcon label='Lookng For An Apartment' />
         </div>
       </div>
     );
