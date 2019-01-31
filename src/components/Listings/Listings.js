@@ -10,10 +10,7 @@ class Listings extends React.Component {
     this.state = {
       results: null,
       isLoading: true,
-      searchQuery: {
-        country: null,
-        city: null
-      }
+
     }
 
     const database = firebase.database();

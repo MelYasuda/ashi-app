@@ -1,4 +1,4 @@
-const initialState = {
+let initialState = {
   searchQuery: {
     country: null,
     city: null
@@ -6,13 +6,15 @@ const initialState = {
 }
 
 const reducer = (state = initialState, action) => {
+  console.log(initialState)
   const { country, city } = action;
+  let newState;
   switch (action.type) {
     case 'SEARCH':
-    state.searchQuery.country = country;
-    state.searchQuery.city = city;
-    console.log(state)
-    return state;
+    newState=state;
+    newState.searchQuery.country = country;
+    newState.searchQuery.city = city;
+    return newState;
     default:
     return state;
   }

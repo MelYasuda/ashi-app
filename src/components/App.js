@@ -58,7 +58,7 @@ class App extends Component {
             <Route 
             exact path="/"
             render={props => (
-                <Home />
+                <Home history={this.props.history}/>
               )}
             />
             <Route 

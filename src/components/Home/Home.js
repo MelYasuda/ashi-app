@@ -8,7 +8,7 @@ class Home extends Component {
     return (
       <div style={homeStyle}>
         <div>Where is you school?</div>
-        <SearchBar/>
+        <SearchBar history={this.props.history}/>
       </div>
     );
   }
