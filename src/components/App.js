@@ -11,6 +11,8 @@ import FirebaseConfig from '../constants/FirebaseConfig.js';
 import * as firebase from 'firebase';
 import CreateListing from './CreateListing/CreateListing';
 import Listings from './Listings/Listings';
+import CurrentLocation from './Map/LoadMapApp'
+
 
 firebase.initializeApp(FirebaseConfig);
 
@@ -74,6 +76,14 @@ class App extends Component {
               )}
             />
             <Route 
+            path="/maps"
+            render={props => (
+              this.state.isAuthenticated===true ? <CurrentLocation/> : <Redirect to={{ pathname: '/signin'}}
+              />
+              )}
+            />
+
+             <Route 
             path="/create"
             render={props => (
               this.state.isAuthenticated===true ? <CreateListing/> : <Redirect to={{ pathname: '/signin'}}
