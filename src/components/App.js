@@ -11,8 +11,11 @@ import FirebaseConfig from '../constants/FirebaseConfig.js';
 import * as firebase from 'firebase';
 import CreateListing from './CreateListing/CreateListing';
 import Listings from './Listings/Listings';
-import CurrentLocation from './Map/LoadMapApp'
+import CurrentLocation from './Map/LoadMapApp';
+import { Provider } from 'react-redux';
+import configureStore from './store/configureStore';
 
+const store = configureStore();
 
 firebase.initializeApp(FirebaseConfig);
 
@@ -45,6 +48,7 @@ class App extends Component {
     console.log("page rendered")
     if(this.state.isAuthenticating) return null;
     return (
+      <Provider store={store}>
       <div className="App">
         <NavBar 
           isSignedIn={this.state.isAuthenticated}
@@ -92,6 +96,8 @@ class App extends Component {
             />
           </Switch>
       </div>
+      </Provider>
+
     );
   }
 }

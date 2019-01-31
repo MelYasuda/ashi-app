@@ -1,6 +1,7 @@
 import React from 'react';
 import * as firebase from 'firebase';
 import Listing from './Listing';
+import { connect } from 'react-redux';
 
 class Listings extends React.Component {
 
@@ -17,8 +18,11 @@ class Listings extends React.Component {
 
     const database = firebase.database();
 
+    const searchQuery = this.props.listings;
+    console.log(searchQuery);
+
     const posts =  () => {
-      return new Promise((resolve, reject)=>{database.ref("Posts/United States/Boston/").on('value',  (snapshot) => {
+      return new Promise((resolve, reject)=>{database.ref("Posts/" + searchQuery.country + "/" + searchQuery.city + "/").on('value',  (snapshot) => {
       const value = snapshot.val();
       const listings = [];
       const listingKeys = [];
@@ -49,7 +53,7 @@ class Listings extends React.Component {
           const subSubValue = subValue[categoryKey];
           for(const listingKey in subSubValue) {
             const listing = subSubValue[listingKey]
-              if((listing["Location Preffered"]==="Boston" || listing["CityName"]==="Boston") && !containerObject["listingKeys"].includes(listingKey) ){
+              if((listing["Location Preffered"]===searchQuery.country || listing["CityName"]===searchQuery.city) && !containerObject["listingKeys"].includes(listingKey) ){
                 containerObject["listings"].push(listing);
             }
           }
@@ -66,7 +70,7 @@ const reservePost = (containerObject) => {
       const subValue = value[uid];
       for(const subKey in subValue){
           const listing = subValue[subKey]
-          if((listing["Location Preffered"]==="Boston" || listing["CityName"]==="Boston") && !containerObject["listingKeys"].includes(subKey)){
+          if((listing["Location Preffered"]===searchQuery.country || listing["CityName"]===searchQuery.city) && !containerObject["listingKeys"].includes(subKey)){
             containerObject["listings"].push(listing);
           }
       }
@@ -102,6 +106,11 @@ const reservePost = (containerObject) => {
   }
 }
 
+const mapStateToProps = state => {
+  console.log(state);
+  return {
+    listings: state.listings.searchQuery,
+  };
+};
 
-
-export default Listings;
+export default connect(mapStateToProps)(Listings);
