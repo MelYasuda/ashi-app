@@ -1,7 +1,6 @@
 import { createStore, combineReducers } from 'redux';
 import { persistStore, persistReducer, persistCombineReducers } from 'redux-persist'
 import storage from 'redux-persist/lib/storage'
-import autoMergeLevel2 from 'redux-persist/lib/stateReconciler/autoMergeLevel2'
 import listingsReducer from './reducers/listings';
 
 const rootReducer = listingsReducer;

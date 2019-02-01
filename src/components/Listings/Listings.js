@@ -19,8 +19,13 @@ class Listings extends React.Component {
     console.log(searchQuery);
 
     const posts =  () => {
-      return new Promise((resolve, reject)=>{database.ref("Posts/" + searchQuery.country + "/" + searchQuery.city + "/").on('value',  (snapshot) => {
-      const value = snapshot.val();
+      return new Promise((resolve, reject)=>{database.ref("Posts/United States/" + searchQuery.city + "/").on('value',  (snapshot) => {
+      let value = snapshot.val();
+      if (!value){
+        database.ref("Posts/Canada/" + searchQuery.city + "/").on('value',  (snapshot) =>{
+          value = snapshot.val()
+        })
+      }
       const listings = [];
       const listingKeys = [];
       for(const uid in value) {
@@ -37,6 +42,7 @@ class Listings extends React.Component {
       const containerObject = {}
       containerObject["listings"] = listings;
       containerObject["listingKeys"] = listingKeys;
+      console.log(containerObject)
       resolve(containerObject)
     })
   })}
@@ -50,7 +56,7 @@ class Listings extends React.Component {
           const subSubValue = subValue[categoryKey];
           for(const listingKey in subSubValue) {
             const listing = subSubValue[listingKey]
-              if((listing["Location Preffered"]===searchQuery.country || listing["CityName"]===searchQuery.city) && !containerObject["listingKeys"].includes(listingKey) ){
+              if((listing["Location Preffered"]===searchQuery.city || listing["CityName"]===searchQuery.city) && !containerObject["listingKeys"].includes(listingKey) ){
                 containerObject["listings"].push(listing);
             }
           }
@@ -67,7 +73,7 @@ const reservePost = (containerObject) => {
       const subValue = value[uid];
       for(const subKey in subValue){
           const listing = subValue[subKey]
-          if((listing["Location Preffered"]===searchQuery.country || listing["CityName"]===searchQuery.city) && !containerObject["listingKeys"].includes(subKey)){
+          if((listing["Location Preffered"]===searchQuery.city || listing["CityName"]===searchQuery.city) && !containerObject["listingKeys"].includes(subKey)){
             containerObject["listings"].push(listing);
           }
       }
