@@ -106,7 +106,7 @@ const reservePost = (containerObject) => {
 const mapStateToProps = state => {
   console.log(state);
   return {
-    listings: state.listings.searchQuery,
+    listings: state.searchQuery,
   };
 };
 

@@ -13,9 +13,11 @@ import CreateListing from './CreateListing/CreateListing';
 import Listings from './Listings/Listings';
 import CurrentLocation from './Map/LoadMapApp';
 import { Provider } from 'react-redux';
-import configureStore from './store/configureStore';
+import {persistor, store} from './store/configureStore';
+import { PersistGate } from 'redux-persist/integration/react'
 
-const store = configureStore();
+// const store = store;
+// const persistor = persistor;
 
 firebase.initializeApp(FirebaseConfig);
 
@@ -49,7 +51,8 @@ class App extends Component {
     if(this.state.isAuthenticating) return null;
     return (
       <Provider store={store}>
-      <div className="App">
+        <PersistGate loading={null} persistor={persistor}>
+        <div className="App">
         <NavBar 
           isSignedIn={this.state.isAuthenticated}
           history={this.props.history}
@@ -95,7 +98,8 @@ class App extends Component {
               )}
             />
           </Switch>
-      </div>
+         </div>
+        </PersistGate>
       </Provider>
 
     );

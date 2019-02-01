@@ -6,16 +6,18 @@ let initialState = {
 }
 
 const reducer = (state = initialState, action) => {
-  console.log(initialState)
   const { country, city } = action;
-  let newState;
   switch (action.type) {
     case 'SEARCH':
-    newState=state;
-    newState.searchQuery.country = country;
-    newState.searchQuery.city = city;
+    let newState = Object.assign({}, state, {
+      searchQuery: {
+        country: country,
+        city: city
+      }
+    })
     return newState;
     default:
+    console.log(state)
     return state;
   }
 }
