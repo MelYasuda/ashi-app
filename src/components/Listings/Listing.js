@@ -19,6 +19,7 @@ class Listing extends React.Component {
             <h5 className="card-title">{value["Title"]}</h5>
             <p className="card-text">
             ${value["Rent"]}
+            {value["username"]}
             </p>
             <button className="btn btn-primary">
               Details

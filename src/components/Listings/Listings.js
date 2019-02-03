@@ -34,6 +34,13 @@ class Listings extends React.Component {
           const subSubValue = subValue[categoryKey];
           for(const listingKey in subSubValue) {
             const listing = subSubValue[listingKey];
+            const userRef = database.ref('users');
+            userRef.child(uid).on('value',(snapshot) => {
+              const username = snapshot.val().username;
+              console.log("loop");
+              listing["username"] = username;
+            })
+
             listingKeys.push(listingKey);
             listings.push(listing);
           }
@@ -56,6 +63,12 @@ class Listings extends React.Component {
           const subSubValue = subValue[categoryKey];
           for(const listingKey in subSubValue) {
             const listing = subSubValue[listingKey]
+            const userRef = database.ref('users');
+            userRef.child(uid).on('value',(snapshot) => {
+              const username = snapshot.val().username;
+              console.log("loop");
+              listing["username"] = username;
+            })
               if((listing["Location Preffered"]===upper || listing["CityName"]===upper) && !containerObject["listingKeys"].includes(listingKey) ){
                 containerObject["listings"].push(listing);
             }
@@ -72,7 +85,13 @@ const reservePost = (containerObject) => {
     for(const uid in value) {
       const subValue = value[uid];
       for(const subKey in subValue){
-          const listing = subValue[subKey]
+          const listing = subValue[subKey];
+          const userRef = database.ref('users');
+          userRef.child(uid).on('value',(snapshot) => {
+            const username = snapshot.val().username;
+            console.log("loop");
+            listing["username"] = username;
+          })
           if((listing["Location Preffered"]===upper || listing["CityName"]===upper) && !containerObject["listingKeys"].includes(subKey)){
             containerObject["listings"].push(listing);
           }
