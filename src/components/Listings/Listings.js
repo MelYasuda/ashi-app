@@ -40,6 +40,7 @@ class Listings extends React.Component {
             userRef.child(uid).on('value',(snapshot) => {
               const username = snapshot.val().username;
               listing["username"] = username;
+              listing["category"] = categoryKey
             })
 
             listingKeys.push(listingKey);
@@ -68,6 +69,7 @@ class Listings extends React.Component {
             userRef.child(uid).on('value',(snapshot) => {
               const username = snapshot.val().username;
               listing["username"] = username;
+              listing["category"] = categoryKey
             })
               if((listing["Location Preffered"]===upper || listing["CityName"]===upper) && !containerObject["listingKeys"].includes(listingKey) ){
                 containerObject["listings"].push(listing);
@@ -90,6 +92,7 @@ const reservePost = (containerObject) => {
           userRef.child(uid).on('value',(snapshot) => {
             const username = snapshot.val().username;
             listing["username"] = username;
+            
           })
           if((listing["Location Preffered"]===upper || listing["CityName"]===upper) && !containerObject["listingKeys"].includes(subKey)){
             containerObject["listings"].push(listing);

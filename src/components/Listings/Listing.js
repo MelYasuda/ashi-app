@@ -1,5 +1,6 @@
 import React from 'react';
 import './Listings.css'
+import DetailsModal from './DetailsModal';
 
 class Listing extends React.Component {
   constructor(props){
@@ -26,9 +27,7 @@ class Listing extends React.Component {
             ${value["Rent"]} <br />
             {value["username"]}
             </p>
-            <button className="btn btn-primary">
-              Details
-            </button>
+            <DetailsModal details={value} />
           </div>
         </div>
       </div>
