@@ -12,14 +12,16 @@ class Listings extends React.Component {
       isLoading: true,
 
     }
-
     const database = firebase.database();
 
     const searchQuery = this.props.listings.city;
     const upper = searchQuery.replace(/^\w/, c => c.toUpperCase());
 
     const posts =  () => {
-      return new Promise((resolve, reject)=>{database.ref("Posts/United States/" + upper + "/").on('value',  (snapshot) => {
+      console.log("post promise")
+      return new Promise((resolve, reject)=>{
+      console.log("inside promise")       
+        database.ref("Posts/United States/" + upper + "/").on('value', (snapshot) => {
       let value = snapshot.val();
       if (!value){
         database.ref("Posts/Canada/" + upper + "/").on('value',  (snapshot) =>{
@@ -37,7 +39,6 @@ class Listings extends React.Component {
             const userRef = database.ref('users');
             userRef.child(uid).on('value',(snapshot) => {
               const username = snapshot.val().username;
-              console.log("loop");
               listing["username"] = username;
             })
 
@@ -49,8 +50,8 @@ class Listings extends React.Component {
       const containerObject = {}
       containerObject["listings"] = listings;
       containerObject["listingKeys"] = listingKeys;
-      console.log(containerObject)
-      resolve(containerObject)
+      resolve(containerObject);
+      reject(console.log("rejected!"))
     })
   })}
 
@@ -66,7 +67,6 @@ class Listings extends React.Component {
             const userRef = database.ref('users');
             userRef.child(uid).on('value',(snapshot) => {
               const username = snapshot.val().username;
-              console.log("loop");
               listing["username"] = username;
             })
               if((listing["Location Preffered"]===upper || listing["CityName"]===upper) && !containerObject["listingKeys"].includes(listingKey) ){
@@ -89,7 +89,6 @@ const reservePost = (containerObject) => {
           const userRef = database.ref('users');
           userRef.child(uid).on('value',(snapshot) => {
             const username = snapshot.val().username;
-            console.log("loop");
             listing["username"] = username;
           })
           if((listing["Location Preffered"]===upper || listing["CityName"]===upper) && !containerObject["listingKeys"].includes(subKey)){
@@ -116,8 +115,8 @@ const reservePost = (containerObject) => {
     if(this.state.isLoading) return null;
     return(
       <div className='container'>
+      <h1>{this.props.listings.city}</h1>
         <div className='row' style={{paddingLeft: '8%'}}>
-          <h1>{this.props.listings.city}</h1>
           {this.state.results.map((result, index)=> 
 
               <Listing value={result}/>
@@ -129,7 +128,6 @@ const reservePost = (containerObject) => {
 }
 
 const mapStateToProps = state => {
-  console.log(state);
   return {
     listings: state.searchQuery,
   };

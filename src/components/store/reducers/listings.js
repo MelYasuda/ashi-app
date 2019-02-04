@@ -17,7 +17,6 @@ const reducer = (state = initialState, action) => {
     })
     return newState;
     default:
-    console.log(state)
     return state;
   }
 }

@@ -14,11 +14,16 @@ class Listing extends React.Component {
     return(
       <div className='card-deck' style={{ marginTop: 15 }}>
         <div className="card" style={{ width: 18 + "em", marginRight: 40 }}>
-          <img className="card-img-top" id="imgUrl" src={imgUrl} alt="Card image cap" />
+          <div style={{backgroundImage: 'url(' + imgUrl + ')',
+          backgroundSize:'cover',
+          backgroundPosition:'center',
+          backgroundRepeat:'no-repeat',
+          height:'200px'}}>
+          </div>
           <div className="card-body">
             <h5 className="card-title">{value["Title"]}</h5>
             <p className="card-text">
-            ${value["Rent"]}
+            ${value["Rent"]} <br />
             {value["username"]}
             </p>
             <button className="btn btn-primary">
@@ -36,6 +41,10 @@ class Listing extends React.Component {
 //   <li>{value[data]}</li>
 //   )
 // )     
+// }
+
+// const imgStyle = {
+//   backgroundImage: 'url(' + imgUrl + ')',
 // }
 
 

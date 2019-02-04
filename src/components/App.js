@@ -41,13 +41,11 @@ class App extends Component {
      
      p.then(()=>{
        this.setState({ isAuthenticating: false })
-        console.log(this.state.isAuthenticating)
       });
   }
 
 
   render() {
-    console.log("page rendered")
     if(this.state.isAuthenticating) return null;
     return (
       <Provider store={store}>
@@ -65,6 +63,12 @@ class App extends Component {
               )}
             />
             <Route 
+            path="/listings"
+            render={props => (
+                <Listings />
+              )}
+            />
+            <Route 
             path="/signup"
             render={props => (
                 <SignUp history={this.props.history} />
@@ -74,12 +78,6 @@ class App extends Component {
             path="/signin"
             render={props => (
                 <SignIn history={this.props.history} />
-              )}
-            />
-            <Route 
-            path="/listings"
-            render={props => (
-                <Listings />
               )}
             />
             <Route 
