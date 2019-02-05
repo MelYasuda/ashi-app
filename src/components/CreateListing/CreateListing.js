@@ -8,11 +8,11 @@ import ApartmentListingForm from './ApartmentListingForm';
 const CondCreateForm = (props) => {
   const categoryDisplayed = props.categoryDisplayed;
   if(categoryDisplayed==="room"){
-    return <RoomListingForm />
+    return <RoomListingForm history={props.history} onCategoryForm={props.onCategoryForm}/>
   } else if(categoryDisplayed==="roommate"){
-    return <RoommateListingForm />
+    return <RoommateListingForm  history={props.history} onCategoryForm={props.onCategoryForm}/>
   } else if(categoryDisplayed==="apartment") {
-    return <ApartmentListingForm />
+    return <ApartmentListingForm history={props.history} onCategoryForm={props.onCategoryForm}/>
   } else {
     console.log(categoryDisplayed)
     return null
@@ -45,7 +45,11 @@ class CreateListing extends Component {
       );
     } else {
       return (
-      <CondCreateForm categoryDisplayed={this.state.categoryDisplayed} />
+      <CondCreateForm
+      onCategoryForm={this.handleCategoryForm}
+      categoryDisplayed={this.state.categoryDisplayed}
+      history={this.props.history}
+       />
       )
     }
   }

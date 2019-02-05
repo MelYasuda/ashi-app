@@ -35,7 +35,7 @@ class SearchBar extends Component {
                value={values.searchValue}
                onChange={handleChange}
                name='searchValue'
-               type="text" className="form-control" placeholder="Enter an address,or city" />
+               type="text" className="form-control" placeholder="Enter the city where your school is" />
               <button type="submit" className="btn btn-primary">Search</button>
             </form>
           )}

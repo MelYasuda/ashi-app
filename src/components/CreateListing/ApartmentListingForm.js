@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import TextForm from "../TextForm/TextForm"
 
 class ApartmentListingForm extends Component {
   constructor(props){
@@ -6,9 +7,25 @@ class ApartmentListingForm extends Component {
     this.state = {}
   }
 
+  backToCreateSelection = (value) => {
+    this.props.onCategoryForm(value)
+  }
+
+  handleGoBack = () => {
+    this.props.history.push("/")
+  }
+
   render(){
     return(
-      <h1>Apartment Listing</h1>
+      <div>
+        <h1>Apartment Listing</h1>
+        <TextForm />
+        <TextForm />
+        <TextForm />
+        <TextForm />
+        <button onClick={this.handleGoBack}>Back</button>
+        <button onClick={()=>this.backToCreateSelection(null)}>Categories</button>
+      </div>
     );
   }
 }

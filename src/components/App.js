@@ -91,7 +91,7 @@ class App extends Component {
              <Route 
             path="/create"
             render={props => (
-              this.state.isAuthenticated===true ? <CreateListing/> : <Redirect to={{ pathname: '/signin'}}
+              this.state.isAuthenticated===true ? <CreateListing history={this.props.history}/> : <Redirect to={{ pathname: '/signin'}}
               />
               )}
             />
