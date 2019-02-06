@@ -47,7 +47,7 @@ class SignUp extends Component {
                 <form onSubmit={handleSubmit}>
                 <div className="image-upload">
                   <label for="file-input">
-                      <img id='clickable-img' src={fileUpload}/>
+                      <img id='clickable-img' src={fileUpload} alt="file upload icon"/>
                   </label>
                   <input type='file' id="file-input" name='pic' className='' />
                 </div>

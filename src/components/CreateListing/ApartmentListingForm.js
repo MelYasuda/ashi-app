@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import TextForm from "../TextForm/TextForm"
+import AutoCompleteForm from "../TextForm/AutoCompleteForm"
 
 class ApartmentListingForm extends Component {
   constructor(props){
@@ -19,6 +20,7 @@ class ApartmentListingForm extends Component {
     return(
       <div>
         <h1>Apartment Listing</h1>
+        <AutoCompleteForm />
         <TextForm />
         <TextForm />
         <TextForm />

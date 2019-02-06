@@ -29,7 +29,6 @@ class Listings extends React.Component {
         })
       }
       const listings = [];
-      const listingKeys = [];
       for(const uid in value) {
         const subValue = value[uid];
         for(const categoryKey in subValue){
@@ -40,91 +39,83 @@ class Listings extends React.Component {
             userRef.child(uid).on('value',(snapshot) => {
               const username = snapshot.val().username;
               listing["username"] = username;
-              listing["category"] = categoryKey
             })
-
-            listingKeys.push(listingKey);
+            if(categoryKey==="Roommate"){
+              listing["category"] = 0
+              } else if (categoryKey==="Solo Apartments"){
+              listing["category"] = 1
+              } else {
+              listing["category"] = 2
+              }
+            listing["listingKey"] = listingKey;
             listings.push(listing);
           }
         }
       }
-      const containerObject = {}
-      containerObject["listings"] = listings;
-      containerObject["listingKeys"] = listingKeys;
+
+      resolve(listings)
+
+    })
+  })}
+
+
+  const categoryKey = (listings) => {
+    return new Promise((resolve,reject) => {
+      const containerObject = {
+        masterData:[
+        {
+          category: "Roommate",
+          data: []
+        },
+        {
+          category: "Solo Apartments",
+          data: []
+        },
+        {
+          category: "Shared Apartments",
+          data: []
+        },
+        ]
+      };
+      listings.map(listing => {
+        containerObject.masterData[listing.category].data.push(listing)
+        return null
+      })
+      
+
       resolve(containerObject);
-      reject(console.log("rejected!"))
-    })
-  })}
+      this.setState({results: containerObject["masterData"]})
 
-    const newPosts = (containerObject) => {
-      return new Promise((resolve, reject)=>{database.ref("NewPosts/").on('value',  (snapshot) => {
-      const value = snapshot.val();
-      for(const uid in value) {
-        const subValue = value[uid];
-        for(const categoryKey in subValue){
-          const subSubValue = subValue[categoryKey];
-          for(const listingKey in subSubValue) {
-            const listing = subSubValue[listingKey]
-            const userRef = database.ref('users');
-            userRef.child(uid).on('value',(snapshot) => {
-              const username = snapshot.val().username;
-              listing["username"] = username;
-              listing["category"] = categoryKey
-            })
-              if((listing["Location Preffered"]===upper || listing["CityName"]===upper) && !containerObject["listingKeys"].includes(listingKey) ){
-                containerObject["listings"].push(listing);
-            }
-          }
-        }
-      }
-      resolve(containerObject)
     })
-  })}
-
-const reservePost = (containerObject) => {
-  return new Promise((resolve, reject)=>{database.ref("ReservePost/").on('value',  (snapshot) => {
-    const value = snapshot.val();
-    for(const uid in value) {
-      const subValue = value[uid];
-      for(const subKey in subValue){
-          const listing = subValue[subKey];
-          const userRef = database.ref('users');
-          userRef.child(uid).on('value',(snapshot) => {
-            const username = snapshot.val().username;
-            listing["username"] = username;
-            
-          })
-          if((listing["Location Preffered"]===upper || listing["CityName"]===upper) && !containerObject["listingKeys"].includes(subKey)){
-            containerObject["listings"].push(listing);
-          }
-      }
-    }
-    this.setState({results: containerObject["listings"]})
-    resolve()
-  })
-})
-}
+  }
 
   const setLoadingState = () => {
     this.setState( {isLoading: false} )
   }
 
-  posts().then(newPosts).then(reservePost).then(setLoadingState);
+  posts().then(categoryKey).then(setLoadingState);
 
   //end of constructor
   }
 
   render(){
+    console.log(this.state.results)
     if(this.state.isLoading) return null;
     return(
       <div className='container'>
       <h1>{this.props.listings.city}</h1>
-        <div className='row' style={{paddingLeft: '8%'}}>
-          {this.state.results.map((result, index)=> 
-
-              <Listing value={result}/>
-            )}
-        </div>
+      {
+        this.state.results.map( (result, index) => (
+          <div key={index}>
+            <h2>{result.category} {result.data.length}</h2>
+            <div className='row' style={{paddingLeft: '8%'}}>
+            {result.data.map((value, index)=> 
+                <Listing key={index} value={value}/>
+              )}
+            </div>          
+          </div>
+         ) )
+      }
       </div>
     );
   }
@@ -137,3 +128,54 @@ const mapStateToProps = state => {
 };
 
 export default connect(mapStateToProps)(Listings);
+
+
+// Reading data from NewPosts and ReservePost but not using the data
+//     const newPosts = (containerObject) => {
+//       return new Promise((resolve, reject)=>{database.ref("NewPosts/").on('value',  (snapshot) => {
+//       const value = snapshot.val();
+//       for(const uid in value) {
+//         const subValue = value[uid];
+//         for(const categoryKey in subValue){
+//           const subSubValue = subValue[categoryKey];
+//           for(const listingKey in subSubValue) {
+//             const listing = subSubValue[listingKey]
+//             const userRef = database.ref('users');
+//             userRef.child(uid).on('value',(snapshot) => {
+//               const username = snapshot.val().username;
+//               listing["username"] = username;
+//               listing["category"] = categoryKey
+//             })
+//               if((listing["Location Preffered"]===upper || listing["CityName"]===upper) && !containerObject["listingKeys"].includes(listingKey) ){
+//                 containerObject["listings"].push(listing);
+//             }
+//           }
+//         }
+//       }
+//       resolve(containerObject)
+//     })
+//   })}
+
+// const reservePost = (containerObject) => {
+//   return new Promise((resolve, reject)=>{database.ref("ReservePost/").on('value',  (snapshot) => {
+//     const value = snapshot.val();
+//     for(const uid in value) {
+//       const subValue = value[uid];
+//       for(const subKey in subValue){
+//           const listing = subValue[subKey];
+//           const userRef = database.ref('users');
+//           userRef.child(uid).on('value',(snapshot) => {
+//             const username = snapshot.val().username;
+//             listing["username"] = username;
+            
+//           })
+//           if((listing["Location Preffered"]===upper || listing["CityName"]===upper) && !containerObject["listingKeys"].includes(subKey)){
+//             containerObject["listings"].push(listing);
+//           }
+//       }
+//     }
+//     this.setState({results: containerObject["listings"]})
+//     resolve()
+//   })
+// })
+// }

@@ -55,7 +55,7 @@ class DetailsModal extends Component {
 
               {
                 Object.keys(image).map((key) => 
-                <img src={image[key]} style={{height:"270px" }} />
+                <img src={image[key]} key={key} style={{height:"270px" }} alt="detal images"/>
               )
             }
 
