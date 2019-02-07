@@ -18,9 +18,7 @@ class Listings extends React.Component {
     const upper = searchQuery.replace(/^\w/, c => c.toUpperCase());
 
     const posts =  () => {
-      console.log("post promise")
       return new Promise((resolve, reject)=>{
-      console.log("inside promise")       
         database.ref("Posts/United States/" + upper + "/").on('value', (snapshot) => {
       let value = snapshot.val();
       if (!value){
@@ -99,7 +97,6 @@ class Listings extends React.Component {
   }
 
   render(){
-    console.log(this.state.results)
     if(this.state.isLoading) return null;
     return(
       <div className='container'>

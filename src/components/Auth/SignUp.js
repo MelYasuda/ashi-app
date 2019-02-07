@@ -9,11 +9,43 @@ import fileUpload from '../../assets/img/profile.png'
 class SignUp extends Component {
 
   handleSignup = (values, {resetForm}) => {
-    const {email, password} = values;
-    firebase.auth().createUserWithEmailAndPassword(email, password).catch((error) =>   {
-      const errorMessage = error.message;
-      alert(errorMessage);
-    }).then( () => {
+    const {email, password, userName, bio} = values;
+    const auth = () => {
+      return new Promise((resolve, reject) => {
+        firebase.auth().createUserWithEmailAndPassword(email, password).catch((error) =>   {
+          const errorMessage = error.message;
+          alert(errorMessage);
+        }
+        )
+        resolve()
+      })
+    }
+
+    const userId = () => {
+      return new Promise((resolve, reject) => {
+        firebase.auth().onAuthStateChanged( user => {
+          if(user){
+            resolve(user)
+          }
+        })
+      })
+    }
+    
+    const userData = (user) => {
+      console.log(user)
+      return new Promise((resolve, reject) => {
+      const uid = user.uid
+        console.log(uid)
+        firebase.database().ref('users/' + uid).set({
+          username: userName,
+          email: email,
+          Bio: bio
+        })
+        resolve()
+      })
+    }
+    
+    auth().then(userId).then(userData).then( () => {
       this.props.history.push("/");
     })
   }
@@ -24,11 +56,13 @@ class SignUp extends Component {
         <div className='form-border'>
           <p>Sign Up</p>
           <Formik 
-            initialValues={{ email: '', password: '', confirmPassword: '', userName:'' }}
+            initialValues={{ email: '', password: '', confirmPassword: '', userName:'', bio:'' }}
             onSubmit={this.handleSignup}
             validationSchema={Yup.object().shape({
               email: Yup.string().required('Email address is required'),
               password: Yup.string().required('Password needs to be provided'),
+              userName: Yup.string().required('Username needs to be provided'),
+              bio: Yup.string().required('Your bio needs to be provided'),
               confirmPassword: Yup.string()
                 .oneOf(
                   [Yup.ref('password', null)],
@@ -57,9 +91,17 @@ class SignUp extends Component {
                     value={values.userName}
                     onChange={handleChange}
                     onBlur={handleBlur}
-                    autoCapitalize="none"
                     name='userName'
                     error={touched.userName && errors.userName}
+                    />
+                    <TextForm
+                    placeHolder='Please tell us about yourself'
+                    label='Bio'
+                    value={values.bio}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    name='bio'
+                    error={touched.bio && errors.bio}
                     />
                   <TextForm
                     label='Email'
