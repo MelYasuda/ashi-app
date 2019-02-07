@@ -1,6 +1,31 @@
 import React, { Component } from 'react';
 import Modal from 'react-bootstrap4-modal'
 
+const CondDetails = (props) => {
+  const details = props.details;
+  if(details['category']===0){
+    return(
+      <React.Fragment>
+        <li>Cleaning: {details["CleaningDetails"]}</li>
+        <li>Can put deposit: {details["DepositeDetails"]}</li>
+        <li>Durasion Seeking: {details["DurationDetails"]}</li>
+        <li>Party Habits(Indoor/Outdoor): {details["PartyDetails"]}</li>
+        <li>Pets: {details["PetDetails"]}</li>
+        <li>Sleeping Time: {details["SleepingDetails"]}</li>
+        <li>Smoker: {details["SmokeDetails"]}</li>
+      </React.Fragment>
+    )
+  } else {
+      return(
+        <React.Fragment>
+          <li>Bathrooms: {details["Bathroom"]}</li>
+          <li>Bedrooms: {details["Bedroom"]}</li>
+          <li>Deposite: {details["deposit"]}</li>
+        </React.Fragment>
+      )
+  }
+}
+
 class DetailsModal extends Component {
   constructor(props){
     super(props);
@@ -37,21 +62,14 @@ class DetailsModal extends Component {
           <h5 className="modal-title">{ details["Title"] }</h5>
         </div>
         <div className="modal-body">
-          <ul>
-              <li>{ details["Post Description"] }</li>
-              <li>{ details["Rent"] }</li>
-              { details["AgeInfo"] ? <li>{details["AgeInfo"]}</li>: null }
-              <li>{ details["username"] }</li>
 
-              {/* roommate */}
-              { details["CleaningDetails"] ? <li>{details["CleaningDetails"]}</li>: null }
-              { details["DepositeDetails"] ? <li>{details["DepositeDetails"]}</li>: null }
-              { details["DurationDetails"] ? <li>{details["DurationDetails"]}</li>: null }
-              { details["PartyDetails"] ? <li>{details["PartyDetails"]}</li>: null }
-              { details["PetDetails"] ? <li>{details["PetDetails"]}</li>: null }
-              { details["SleepingDetails"] ? <li>{details["SleepingDetails"]}</li>: null }
-              { details["SmokeDetails"] ? <li>{details["SmokeDetails"]}</li>: null }
 
+          <div style={{backgroundImage: 'url(' + details['imageUrl'] + ')',
+          backgroundSize:'cover',
+          backgroundPosition:'center',
+          backgroundRepeat:'no-repeat',
+          height:'300px'}}>
+          </div>
 
               {
                 Object.keys(image).map((key) => 
@@ -59,7 +77,12 @@ class DetailsModal extends Component {
               )
             }
 
-            =======================
+          <ul>
+            <li>{ details["Post Description"] }</li>
+            <li>{ details["Rent"] }</li>
+            { details["AgeInfo"] ? <li>{details["AgeInfo"]}</li>: null }
+            <li>{ details["username"] }</li>
+            <CondDetails details={details} />
           </ul>
         </div>
         <div className="modal-footer">

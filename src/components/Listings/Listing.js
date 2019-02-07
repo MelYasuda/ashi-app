@@ -35,16 +35,4 @@ class Listing extends React.Component {
   }
 }
 
-// { 
-//   Object.keys(value).map((data, index) => (
-//   <li>{value[data]}</li>
-//   )
-// )     
-// }
-
-// const imgStyle = {
-//   backgroundImage: 'url(' + imgUrl + ')',
-// }
-
-
 export default Listing;

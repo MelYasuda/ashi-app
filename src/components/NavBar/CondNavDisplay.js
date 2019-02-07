@@ -16,7 +16,7 @@ function SignedIn(props){
       </a>
     </li>
     <li className="nav-item active">
-      <a className="nav-link" href="#">
+      <a className="nav-link" href="#/user">
         <FontAwesomeIcon icon="user" />
       </a>
     </li>

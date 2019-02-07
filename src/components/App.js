@@ -11,6 +11,7 @@ import FirebaseConfig from '../constants/FirebaseConfig.js';
 import * as firebase from 'firebase';
 import CreateListing from './CreateListing/CreateListing';
 import Listings from './Listings/Listings';
+import UserProfile from './User/UserProfile';
 import CurrentLocation from './Map/LoadMapApp';
 import { Provider } from 'react-redux';
 import {persistor, store} from './store/configureStore';
@@ -80,6 +81,15 @@ class App extends Component {
                 <SignIn history={this.props.history} />
               )}
             />
+
+            <Route 
+            path="/user"
+            render={props => (
+              this.state.isAuthenticated===true ? <UserProfile/> : <Redirect to={{ pathname: '/signin'}}
+              />
+              )}
+            />
+
             <Route 
             path="/maps"
             render={props => (

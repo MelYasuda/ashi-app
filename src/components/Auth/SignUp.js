@@ -6,6 +6,8 @@ import * as Yup from 'yup';
 import * as firebase from 'firebase';
 import fileUpload from '../../assets/img/profile.png'
 
+let selectedFile = '';
+
 class SignUp extends Component {
 
   handleSignup = (values, {resetForm}) => {
@@ -31,23 +33,52 @@ class SignUp extends Component {
       })
     }
     
-    const userData = (user) => {
-      console.log(user)
+    const storageService = firebase.storage();
+    const storageRef = storageService.ref();
+
+    const handleProfilePhotoSubmit = (user) => {
       return new Promise((resolve, reject) => {
-      const uid = user.uid
-        console.log(uid)
+        const uid = user.uid;
+        const uploadTask = storageRef.child(`profile_images/${selectedFile.name}`).put(selectedFile); 
+        uploadTask.then(snapshot => {
+          return snapshot.ref.getDownloadURL();   // Will return a promise with the download link
+      }).then(downloadURL => {
+        console.log(`Successfully uploaded file and got download link - ${downloadURL}`);
+        const filePath = downloadURL;
+        const containerObject = {};
+        containerObject['uid'] = uid;
+        containerObject['downloadURL'] = filePath
+        console.log(containerObject);
+        resolve(containerObject)
+     })
+      })
+    }
+
+    const addImgUrlToUserData = (containerObject) => {
+      return new Promise((resolve, reject) => {
+        const uid = containerObject.uid;
+        const downloadURL = containerObject.downloadURL;
         firebase.database().ref('users/' + uid).set({
           username: userName,
           email: email,
-          Bio: bio
+          Bio: bio,
+          profileImageUrl: downloadURL
         })
         resolve()
       })
     }
     
-    auth().then(userId).then(userData).then( () => {
+
+    auth().then(userId).then(handleProfilePhotoSubmit).then(addImgUrlToUserData).then( () => {
       this.props.history.push("/");
     })
+
+  }
+
+
+  handleFileUploadChange = (e) => {
+    selectedFile = e.target.files[0];
+    console.log(selectedFile)
   }
 
   render() {
@@ -83,7 +114,7 @@ class SignUp extends Component {
                   <label for="file-input">
                       <img id='clickable-img' src={fileUpload} alt="file upload icon"/>
                   </label>
-                  <input type='file' id="file-input" name='pic' className='' />
+                  <input type='file' id="file-input" onChange={this.handleFileUploadChange} name='pic' className='' />
                 </div>
                 <TextForm
                     placeHolder='What is you name?'
