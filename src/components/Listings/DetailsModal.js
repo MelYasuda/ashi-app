@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import Modal from 'react-bootstrap4-modal'
+import Modal from 'react-bootstrap4-modal';
+import Carousel from './Carousel';
 
 const CondDetails = (props) => {
   const details = props.details;
@@ -51,7 +52,6 @@ class DetailsModal extends Component {
 
   render(){
     const details = this.props.details;
-    const image = details["Screenshots"]; 
 
     return(
       <div>
@@ -71,12 +71,6 @@ class DetailsModal extends Component {
           height:'300px'}}>
           </div>
 
-              {
-                Object.keys(image).map((key) => 
-                <img src={image[key]} key={key} style={{height:"270px" }} alt="detal images"/>
-              )
-            }
-
           <ul>
             <li>{ details["Post Description"] }</li>
             <li>{ details["Rent"] }</li>
@@ -85,6 +79,7 @@ class DetailsModal extends Component {
             <CondDetails details={details} />
           </ul>
         </div>
+        <Carousel images = {details["Screenshots"]} />
         <div className="modal-footer">
           <button type="button" className="btn btn-primary" onClick={this.onCloseButton}>
             Fire phasers
