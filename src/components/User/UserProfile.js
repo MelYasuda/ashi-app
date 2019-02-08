@@ -9,10 +9,11 @@ class UserProfile extends Component {
       user: null
     }
 
+    const selectedUid = this.props.location.search.split('=')[1]
+
     const getUser = () => {
       return new Promise((resolve, reject) => {
-        const user = firebase.auth().currentUser;
-        const uid = user.uid
+        const uid = selectedUid;
         firebase.database().ref('users/' + uid).on('value', (snapshot) => {
           var value = snapshot.val();
           console.log(value)
@@ -39,7 +40,6 @@ class UserProfile extends Component {
         <h1>user profile</h1>
         <ul>
           <li>{username}</li>
-          <li>{email}</li>
           <li>{Bio}</li>
           <img src={profileImageUrl} alt='profile'  />
         </ul>

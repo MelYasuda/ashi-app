@@ -107,7 +107,7 @@ class Listings extends React.Component {
             <h2>{result.category} {result.data.length}</h2>
             <div className='row' style={{paddingLeft: '8%'}}>
             {result.data.map((value, index)=> 
-                <Listing key={index} value={value}/>
+                <Listing key={index} value={value} history={this.props.history}/>
               )}
             </div>          
           </div>

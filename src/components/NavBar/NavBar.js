@@ -29,7 +29,9 @@ class NavBar extends Component {
           </div>
 
           <div className="collapse navbar-collapse" id="navbarSupportedContent">
-            <CondNavDisplay isSignedIn={this.props.isSignedIn} handleSignOut={this.handleSignOut}/>
+            <CondNavDisplay
+            history={this.props.history}
+            isSignedIn={this.props.isSignedIn} handleSignOut={this.handleSignOut}/>
           </div>
 
         </nav>

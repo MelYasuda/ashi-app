@@ -7,6 +7,7 @@ const CondDetails = (props) => {
   if(details['category']===0){
     return(
       <React.Fragment>
+        <li>Age: {details["AgeInfo"]}</li>
         <li>Cleaning: {details["CleaningDetails"]}</li>
         <li>Can put deposit: {details["DepositeDetails"]}</li>
         <li>Durasion Seeking: {details["DurationDetails"]}</li>
@@ -50,9 +51,17 @@ class DetailsModal extends Component {
     this.setState({ open: false })
   }
 
+  handleUserInfo = (uid) => {
+    this.props.history.push({
+      pathname: '/user',
+      search: '?id=' + uid,
+      state: { detail: uid }
+    });
+  }
+
   render(){
     const details = this.props.details;
-
+    console.log(details);
     return(
       <div>
         <button type='button' className="btn btn-success" onClick={this.openModal}>Details</button>
@@ -74,8 +83,9 @@ class DetailsModal extends Component {
           <ul>
             <li>{ details["Post Description"] }</li>
             <li>{ details["Rent"] }</li>
-            { details["AgeInfo"] ? <li>{details["AgeInfo"]}</li>: null }
-            <li>{ details["username"] }</li>
+
+            <li onClick={()=>this.handleUserInfo(details.passengerKey)}>{ details["username"] }</li>
+
             <CondDetails details={details} />
           </ul>
         </div>

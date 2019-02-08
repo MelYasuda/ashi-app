@@ -1,8 +1,21 @@
 import React from 'react';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import PropTypes from 'prop-types';
+import * as firebase from 'firebase';
+ 
 
 function SignedIn(props){
+
+  const handleUserProfile = () => {
+    const user = firebase.auth().currentUser;
+    const uid = user.uid;
+    console.log(uid)
+    props.history.push({
+      pathname: '/user',
+      search: '?id=' + uid,
+    });
+  }
+
   return(
   <ul className="navbar-nav ml-auto">
     <li className="nav-item active">
@@ -11,12 +24,12 @@ function SignedIn(props){
       </a>
     </li>
     <li className="nav-item active">
-      <a className="nav-link" href="#">
+      <a className="nav-link" >
         <FontAwesomeIcon icon="heart" />
       </a>
     </li>
     <li className="nav-item active">
-      <a className="nav-link" href="#/user">
+      <a className="nav-link" onClick={()=>handleUserProfile()}>
         <FontAwesomeIcon icon="user" />
       </a>
     </li>
@@ -49,7 +62,9 @@ function SignedOut(props){
 function CondNavDisplay(props){
   const isSignedIn = props.isSignedIn;
   if (isSignedIn) {
-    return <SignedIn handleSignOut={props.handleSignOut} />;
+    return <SignedIn
+    history={props.history} 
+    handleSignOut={props.handleSignOut} />;
   }
   return <SignedOut handleSignIn={props.handleSignIn} />;
 }
