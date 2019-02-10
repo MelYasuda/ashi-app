@@ -17,17 +17,33 @@ class Listings extends React.Component {
     const searchQuery = this.props.listings.city;
     const upper = searchQuery.replace(/^\w/, c => c.toUpperCase());
 
-    const posts =  () => {
-      return new Promise((resolve, reject)=>{
+    const americaListings = () => {
+      return new Promise((resolve,reject)=>{
         database.ref("Posts/United States/" + upper + "/").on('value', (snapshot) => {
-      let value = snapshot.val();
-      console.log(value)
-      if (!value){
-        database.ref("Posts/Canada/" + upper + "/").on('value',  (snapshot) =>{
-          value = snapshot.val();
-      console.log(value)
+          let value = snapshot.val();
+          resolve(value)
         })
-      }
+      })
+    }
+
+    const canadaListings = (canadaValue) => {
+      console.log(canadaValue)
+      return new Promise((resolve,reject)=>{
+        if (canadaValue===null){
+          database.ref("Posts/Canada/" + upper + "/").on('value',  (snapshot) =>{
+            canadaValue = snapshot.val();
+            resolve(canadaValue)
+
+          })
+        } else{
+          resolve(canadaValue)
+        }
+      })
+    }
+
+    const posts = (value) => {
+      return new Promise((resolve, reject)=>{
+        console.log(value)
       const listings = [];
       for(const uid in value) {
         const subValue = value[uid];
@@ -54,7 +70,6 @@ class Listings extends React.Component {
       }
       resolve(listings)
 
-    })
   })}
 
 
@@ -92,7 +107,7 @@ class Listings extends React.Component {
     this.setState( {isLoading: false} )
   }
 
-  posts().then(categoryKey).then(setLoadingState);
+  americaListings().then(canadaListings).then(posts).then(categoryKey).then(setLoadingState);
 
   //end of constructor
   }
