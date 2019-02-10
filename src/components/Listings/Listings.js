@@ -33,7 +33,6 @@ class Listings extends React.Component {
           database.ref("Posts/Canada/" + upper + "/").on('value',  (snapshot) =>{
             canadaValue = snapshot.val();
             resolve(canadaValue)
-
           })
         } else{
           resolve(canadaValue)

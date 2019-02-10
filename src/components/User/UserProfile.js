@@ -45,10 +45,17 @@ class UserProfile extends Component {
           }
           const listingDetails = [];
           userListings.forEach((listings) => {
-            Object.keys(listings).map(key=> {
-              const listing = listings[key];
+            Object.keys(listings).map(categoryKey=> {
+              const listing = listings[categoryKey];
              Object.keys(listing).map(key => {
                 const details = listing[key];
+                if(categoryKey==="Roommate"){
+                  details["category"] = 0
+                  } else if (categoryKey==="Solo Apartments"){
+                  details["category"] = 1
+                  } else {
+                  details["category"] = 2
+                  }
                 listingDetails.push(details);
               })
             })
