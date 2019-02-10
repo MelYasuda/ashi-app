@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Modal from 'react-bootstrap4-modal';
+import './Listings.css'
 import Carousel from './Carousel';
 
 const CondDetails = (props) => {
@@ -79,17 +80,17 @@ class DetailsModal extends Component {
           backgroundRepeat:'no-repeat',
           height:'300px'}}>
           </div>
+          Postedy by <a id='user-name' onClick={()=>this.handleUserInfo(details.passengerKey)}>{ details["username"] }</a>
 
           <ul>
             <li>{ details["Post Description"] }</li>
-            <li>{ details["Rent"] }</li>
-
-            <li onClick={()=>this.handleUserInfo(details.passengerKey)}>{ details["username"] }</li>
-
-            <CondDetails details={details} />
           </ul>
         </div>
         <Carousel images = {details["Screenshots"]} />
+        <ul>
+          <li>Rent: ${ details["Rent"] }</li>
+          <CondDetails details={details} />
+        </ul>
         <div className="modal-footer">
           <button type="button" className="btn btn-primary" onClick={this.onCloseButton}>
             Fire phasers

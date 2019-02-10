@@ -21,9 +21,11 @@ class Listings extends React.Component {
       return new Promise((resolve, reject)=>{
         database.ref("Posts/United States/" + upper + "/").on('value', (snapshot) => {
       let value = snapshot.val();
+      console.log(value)
       if (!value){
         database.ref("Posts/Canada/" + upper + "/").on('value',  (snapshot) =>{
-          value = snapshot.val()
+          value = snapshot.val();
+      console.log(value)
         })
       }
       const listings = [];
@@ -50,7 +52,6 @@ class Listings extends React.Component {
           }
         }
       }
-
       resolve(listings)
 
     })

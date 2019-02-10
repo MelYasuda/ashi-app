@@ -9,6 +9,7 @@ class Carousels extends Component {
 
   render(){
     const images = this.props.images;
+    console.log(images)
     return(
       <Carousel style={{width:'90'}}>
       {

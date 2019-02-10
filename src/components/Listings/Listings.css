@@ -1,3 +1,4 @@
-/* #imgUrl {
-  width: 100px
-} */
+#user-name {
+  color: blue;
+  text-decoration: underline;
+}
