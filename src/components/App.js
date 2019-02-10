@@ -83,7 +83,7 @@ class App extends Component {
             />
 
             <Route 
-            path="/user/"
+            path="/user"
             render={props => (
               this.state.isAuthenticated===true ? <UserProfile {...props}/> : <Redirect to={{ pathname: '/signin'}}
               />

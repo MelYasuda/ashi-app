@@ -2,6 +2,18 @@ import React, { Component } from 'react';
 import * as firebase from 'firebase';
 import Listing from '../Listings/Listing';
 
+const EditButton = (props) => {
+  const currentUid = firebase.auth().currentUser.uid
+
+  console.log()
+
+  if(props.uid === currentUid){
+    return <button className='btn btn-success'>Edit</button>
+  } else {
+    return null
+  }
+}
+
 class UserProfile extends Component {
   constructor(props){
     super(props);
@@ -10,6 +22,7 @@ class UserProfile extends Component {
       user: null,
       userListings: null
     }
+
 
     const selectedUid = this.props.location.search.split('=')[1]
 
@@ -21,6 +34,7 @@ class UserProfile extends Component {
           value['uid']=uid;
           const objectContainer = {};
           objectContainer['userDetails'] = value;
+
           resolve(objectContainer)
         })
       })
@@ -79,13 +93,19 @@ class UserProfile extends Component {
 
     getUser().then(getUserListings).then(setUser);
 
+  }
 
+  componentDidUpdate = () => {
+
+    console.log("update")
   }
 
   render(){
+
     if(this.state.isLoading) return null;
     const {Bio, profileImageUrl, username, uid} = this.state.user;
-    const userListings=this.state.userListings
+    const userListings=this.state.userListings;
+    console.log(userListings)
     return(
       <div className='container'>
         <h1>user profile</h1>
@@ -102,6 +122,8 @@ class UserProfile extends Component {
             ))
           }
         </div>
+
+        <EditButton uid={uid}  />
 
       </div>
     )
