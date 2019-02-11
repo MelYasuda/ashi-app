@@ -13,9 +13,11 @@ class TextForm extends Component {
   }
 
   render() {
-    const { label, error, placeHolder, ...rest } = this.props;
+    const { label, error, placeHolder, title, ...rest } = this.props;
     return (
         <div className="form-group">
+          <label>
+          {title}
           <input
           type={(label==='Password'|| label==='Confirm Password') ? "password" : "text" }
           className="form-control"
@@ -24,6 +26,7 @@ class TextForm extends Component {
           onBlur={this._handleTouch}
         {...rest} />
           {error}
+          </label>
         </div>
     );
   }
