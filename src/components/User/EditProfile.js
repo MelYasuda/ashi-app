@@ -43,6 +43,26 @@ class EditProfile extends Component {
   handleUserEdit = (values) => {
     const {userName, bio, profileImageUrl, website, status} = values;
 
+    let updatedProfileImageUrl = '';
+    const difineProfileImageUrl = () => {
+      return new Promise((resolve, reject) => {
+        if(selectedFile){
+          const storageService = firebase.storage();
+          const storageRef = storageService.ref();
+          const uploadTask = storageRef.child(`profile_images/${selectedFile.name}`).put(selectedFile); 
+          uploadTask.then(snapshot => {
+            return snapshot.ref.getDownloadURL(); 
+        }).then(downloadURL => { 
+          updatedProfileImageUrl = downloadURL;
+          resolve()
+         })
+        } else {
+          updatedProfileImageUrl = profileImageUrl;
+          resolve()
+        }
+      })
+    }
+
     const writeNewUserDetails = () => {
       return new Promise((resolve, reject)=>{
         console.log(selectedFile);
@@ -50,7 +70,7 @@ class EditProfile extends Component {
         firebase.database().ref('users/' + uid).set({
           username: userName,
           Bio: bio,
-          profileImageUrl: profileImageUrl,
+          profileImageUrl: updatedProfileImageUrl,
           Website: website,
           Status: status
         })
@@ -60,10 +80,13 @@ class EditProfile extends Component {
 
 
     const redirectToUserPage = () => {
-      console.log('redirect')
+      const selectedUid = this.props.location.search.split('=')[1];      this.props.history.push({
+        pathname: '/user',
+        search: '?id=' + selectedUid 
+      });
     }
 
-    writeNewUserDetails().then(redirectToUserPage)
+    difineProfileImageUrl().then(writeNewUserDetails).then(redirectToUserPage)
 
   }
 
