@@ -16,6 +16,7 @@ import CurrentLocation from './Map/LoadMapApp';
 import { Provider } from 'react-redux';
 import {persistor, store} from './store/configureStore';
 import { PersistGate } from 'redux-persist/integration/react'
+import EditProfile from './User/EditProfile';
 
 // const store = store;
 // const persistor = persistor;
@@ -83,9 +84,17 @@ class App extends Component {
             />
 
             <Route 
-            path="/user"
+            exact path="/user"
             render={props => (
               this.state.isAuthenticated===true ? <UserProfile {...props}/> : <Redirect to={{ pathname: '/signin'}}
+              />
+              )}
+            />
+
+            <Route 
+            path="/user/edit"
+            render={props => (
+              this.state.isAuthenticated===true ? <EditProfile {...props} history={this.props.history}/> : <Redirect to={{ pathname: '/signin'}}
               />
               )}
             />

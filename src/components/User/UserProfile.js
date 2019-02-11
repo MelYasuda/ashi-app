@@ -3,15 +3,22 @@ import * as firebase from 'firebase';
 import Listing from '../Listings/Listing';
 
 const EditButton = (props) => {
-  const currentUid = firebase.auth().currentUser.uid
+  const currentUid = firebase.auth().currentUser.uid;
 
-  console.log()
+  const handleEditClick = () => {
+    props.history.push({
+      pathname: '/user/edit',
+      // search: '?id=' + uid,
+    });
+  }
 
   if(props.uid === currentUid){
-    return <button className='btn btn-success'>Edit</button>
+    return <button className='btn btn-success' onClick={()=>handleEditClick()}>Edit</button>
   } else {
     return null
   }
+
+
 }
 
 class UserProfile extends Component {
@@ -95,10 +102,6 @@ class UserProfile extends Component {
 
   }
 
-  componentDidUpdate = () => {
-
-    console.log("update")
-  }
 
   render(){
 
@@ -123,7 +126,7 @@ class UserProfile extends Component {
           }
         </div>
 
-        <EditButton uid={uid}  />
+        <EditButton uid={uid} history={this.props.history} />
 
       </div>
     )
