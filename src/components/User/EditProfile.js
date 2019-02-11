@@ -2,6 +2,9 @@ import React, { Component } from 'react';
 import * as firebase from 'firebase';
 import TextForm from '../TextForm/TextForm';
 import { Formik } from 'formik';
+import * as Yup from 'yup';
+
+let selectedFile ='';
 
 class EditProfile extends Component {
   constructor(props){
@@ -21,7 +24,6 @@ class EditProfile extends Component {
           value['uid']=uid;
           const objectContainer = {};
           objectContainer['userDetails'] = value;
-          console.log(objectContainer)
           resolve(objectContainer)
         })
       })
@@ -37,17 +39,60 @@ class EditProfile extends Component {
 
     getUser().then(setUser)
   }
+  
+  handleUserEdit = (values) => {
+    const {userName, bio, profileImageUrl, website, status} = values;
+
+    const writeNewUserDetails = () => {
+      return new Promise((resolve, reject)=>{
+        console.log(selectedFile);
+        const uid = this.state.user.uid;
+        firebase.database().ref('users/' + uid).set({
+          username: userName,
+          Bio: bio,
+          profileImageUrl: profileImageUrl,
+          Website: website,
+          Status: status
+        })
+        resolve()
+      })
+    }
+
+
+    const redirectToUserPage = () => {
+      console.log('redirect')
+    }
+
+    writeNewUserDetails().then(redirectToUserPage)
+
+  }
+
+  handleFileUploadChange = (e) => {
+    selectedFile = e.target.files[0];
+    console.log(selectedFile)
+  }
 
   render(){
-    if(this.state.isLoading) return null;
     console.log(this.state.user)
+    if(this.state.isLoading) return null;
+    const user = this.state.user;
+    const websiteValue = user.Website ? user.Website: ''
     return(
       <div className="EditProfile">
         <div className='form-border'>
           <p>Edit profile</p>
           <Formik 
-            initialValues={{ userName:`${this.state.user.username}`, bio:`${this.state.user.Bio}`, status: '', website: '' }}
-            onSubmit={this.handleSignup}
+            initialValues={{ 
+              userName:`${user.username}`, 
+              bio:`${user.Bio}`, 
+              status: `${user.Status}`, 
+              website: websiteValue, 
+              profileImageUrl: `${user.profileImageUrl}` }}
+            onSubmit={this.handleUserEdit}
+            validationSchema={Yup.object().shape({
+              userName: Yup.string().required('Username needs to be provided'),
+              bio: Yup.string().required('Your bio needs to be provided'),
+            })}
             render={({
               values,
               handleSubmit,
@@ -58,7 +103,7 @@ class EditProfile extends Component {
               }) => (
                 <form onSubmit={handleSubmit}>
                 <div className="image-upload">
-                  <label for="file-input">
+                  <label htmlFor="file-input">
                       <img src={this.state.user.profileImageUrl} alt="file upload icon"/>
                   </label>
                   <input type='file' id="file-input" onChange={this.handleFileUploadChange} name='pic' className='' />
@@ -79,7 +124,25 @@ class EditProfile extends Component {
                   name='bio'
                   error={touched.bio && errors.bio}
                   />
-
+                  <TextForm
+                  title='Website'
+                  value={values.website}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  name='website'
+                  />
+                  <label>You are</label>
+                  <select
+                      className="form-control" 
+                      id="status"
+                      value={values.status}
+                      onChange={handleChange}
+                      name='status'
+                      >
+                      <option value=''>--</option>
+                      <option value='individual'>Individual</option>
+                      <option value='company'>Company</option>
+                    </select>
                   <button
                   type="submit"
                   className="btn btn-primary"
