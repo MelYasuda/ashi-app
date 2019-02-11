@@ -8,7 +8,7 @@ const EditButton = (props) => {
   const handleEditClick = () => {
     props.history.push({
       pathname: '/user/edit',
-      // search: '?id=' + uid,
+      search: '?id=' + currentUid,
     });
   }
 
@@ -17,8 +17,6 @@ const EditButton = (props) => {
   } else {
     return null
   }
-
-
 }
 
 class UserProfile extends Component {
