@@ -62,6 +62,7 @@ class UserProfile extends Component {
               }
             }
           }
+          console.log(userListings)
           const listingDetails = [];
           userListings.forEach((listings) => {
             Object.keys(listings).map(categoryKey=> {
@@ -72,7 +73,7 @@ class UserProfile extends Component {
                   details["category"] = 0
                   } else if (categoryKey==="Solo Apartments"){
                   details["category"] = 1
-                  } else {
+                  } else if (categoryKey==="Shared Apartments"){
                   details["category"] = 2
                   }
                   details["listingId"] = listingKey;

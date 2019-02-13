@@ -35,13 +35,16 @@ const CondDetails = (props) => {
 const CondEditButton = (props) => {
   const queryUid = props.history.location.search.split('=')[1];
   const currentUid = firebase.auth().currentUser.uid;
-  const listingId = props.details.listingId;
+  const {listingId, CityName, passengerKey} = props.details;
+
+
   const routeToEditPage = () => {
     props.history.push({
       pathname: 'listings/edit',
-      search: '?id=' + listingId
+      search: '?city=' + CityName + '?id=' + passengerKey + '?listingId=' + listingId
     });
   }
+  console.log(props.details)
 
   if(queryUid===currentUid){
     return <button className="btn btn-primary" onClick={()=>routeToEditPage()}>Edit</button>
