@@ -109,7 +109,7 @@ class RoommateListingForm extends Component {
   render(){
     return(
       <div>
-        <div className="Roommate">
+        <div className="container">
           <h1>Create A Roommate Listing</h1>
             <Formik 
               initialValues={{ place: '', title: '', introduction: '', pets: '', parties: '', clean: '', smoke: '', bedTime: '', deposit: '', duration: '', rent: '', age: '' }}
@@ -285,14 +285,11 @@ class RoommateListingForm extends Component {
                   </form>
                 )}
               />
-        </div>
-
-
-        <div className='buttons'>
-          <button className='btn btn-primary' onClick={this.handleGoBack}>Back</button>
+          <div className='buttons'>
+            <button className='btn btn-primary' onClick={this.handleGoBack}>Back</button>
             <button className='btn btn-secondary' onClick={()=>this.backToCreateSelection(null)}>Categories</button>
+          </div>
         </div>
-
       </div>
     );
   }

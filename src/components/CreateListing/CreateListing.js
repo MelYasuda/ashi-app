@@ -1,14 +1,13 @@
 import React, { Component } from 'react';
 import './CreateListing.css';
 import CreateListingIcon from './CreateListingIcon';
-import RoomListingForm from './RoomListingForm';
-import RoommateListingForm from './RoommateListingForm';
 import ApartmentListingForm from './ApartmentListingForm';
+import RoommateListingForm from './RoommateListingForm';
 
 const CondCreateForm = (props) => {
   const categoryDisplayed = props.categoryDisplayed;
   if(categoryDisplayed==="room"){
-    return <RoomListingForm 
+    return <ApartmentListingForm 
     category={categoryDisplayed} 
     history={props.history} onCategoryForm={props.onCategoryForm}/>
   } else if(categoryDisplayed==="roommate"){
@@ -17,7 +16,7 @@ const CondCreateForm = (props) => {
     history={props.history} 
     onCategoryForm={props.onCategoryForm}/>
   } else if(categoryDisplayed==="apartment") {
-    return <RoomListingForm 
+    return <ApartmentListingForm 
     category={categoryDisplayed}
     history={props.history} 
     onCategoryForm={props.onCategoryForm}/>

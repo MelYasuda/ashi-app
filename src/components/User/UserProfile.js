@@ -66,8 +66,8 @@ class UserProfile extends Component {
           userListings.forEach((listings) => {
             Object.keys(listings).map(categoryKey=> {
               const listing = listings[categoryKey];
-             Object.keys(listing).map(key => {
-                const details = listing[key];
+             Object.keys(listing).map(listingKey => {
+                const details = listing[listingKey];
                 if(categoryKey==="Roommate"){
                   details["category"] = 0
                   } else if (categoryKey==="Solo Apartments"){
@@ -75,6 +75,7 @@ class UserProfile extends Component {
                   } else {
                   details["category"] = 2
                   }
+                  details["listingId"] = listingKey;
                 listingDetails.push(details);
               })
             })
@@ -114,17 +115,18 @@ class UserProfile extends Component {
           <li>{username}</li>
           <li>{Bio}</li>
           <img src={profileImageUrl} alt='profile'  />
+          <EditButton uid={uid} history={this.props.history} />
+
 
         </ul>
         <div className='row' style={{paddingLeft: '8%'}}>
             {
             userListings.map((userListing)=>(
-            <Listing value={userListing}/>            
+            <Listing value={userListing} {...this.props}/>            
             ))
           }
         </div>
 
-        <EditButton uid={uid} history={this.props.history} />
 
       </div>
     )

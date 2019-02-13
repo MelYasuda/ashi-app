@@ -17,6 +17,7 @@ import { Provider } from 'react-redux';
 import {persistor, store} from './store/configureStore';
 import { PersistGate } from 'redux-persist/integration/react'
 import EditProfile from './User/EditProfile';
+import EditListing from './EditListing/EditListing';
 
 // const store = store;
 // const persistor = persistor;
@@ -65,9 +66,23 @@ class App extends Component {
               )}
             />
             <Route 
-            path="/listings"
+            exact path="/listings"
             render={props => (
                 <Listings history={this.props.history}/>
+              )}
+            />
+            <Route 
+            path="/listings/create"
+            render={props => (
+              this.state.isAuthenticated===true ? <CreateListing history={this.props.history}/> : <Redirect to={{ pathname: '/signin'}}
+              />
+              )}
+            />
+            <Route 
+            path="/listings/edit"
+            render={props => (
+              this.state.isAuthenticated===true ? <EditListing history={this.props.history}/> : <Redirect to={{ pathname: '/signin'}}
+              />
               )}
             />
             <Route 
@@ -82,7 +97,6 @@ class App extends Component {
                 <SignIn history={this.props.history} />
               )}
             />
-
             <Route 
             exact path="/user"
             render={props => (
@@ -90,7 +104,6 @@ class App extends Component {
               />
               )}
             />
-
             <Route 
             path="/user/edit"
             render={props => (
@@ -103,14 +116,6 @@ class App extends Component {
             path="/maps"
             render={props => (
               this.state.isAuthenticated===true ? <CurrentLocation/> : <Redirect to={{ pathname: '/signin'}}
-              />
-              )}
-            />
-
-             <Route 
-            path="/create"
-            render={props => (
-              this.state.isAuthenticated===true ? <CreateListing history={this.props.history}/> : <Redirect to={{ pathname: '/signin'}}
               />
               )}
             />

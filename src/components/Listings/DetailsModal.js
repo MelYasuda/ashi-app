@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import Modal from 'react-bootstrap4-modal';
 import './Listings.css'
 import Carousel from './Carousel';
+import * as firebase from 'firebase';
 
 const CondDetails = (props) => {
   const details = props.details;
@@ -28,6 +29,24 @@ const CondDetails = (props) => {
           <li>Address: {details["Location Preffered"]}</li>
         </React.Fragment>
       )
+  }
+}
+
+const CondEditButton = (props) => {
+  const queryUid = props.history.location.search.split('=')[1];
+  const currentUid = firebase.auth().currentUser.uid;
+  const listingId = props.details.listingId;
+  const routeToEditPage = () => {
+    props.history.push({
+      pathname: 'listings/edit',
+      search: '?id=' + listingId
+    });
+  }
+
+  if(queryUid===currentUid){
+    return <button className="btn btn-primary" onClick={()=>routeToEditPage()}>Edit</button>
+  } else {
+    return null
   }
 }
 
@@ -58,13 +77,12 @@ class DetailsModal extends Component {
     this.props.history.push({
       pathname: '/user',
       search: '?id=' + uid,
-      state: { detail: uid }
     });
   }
 
   render(){
     const details = this.props.details;
-    console.log(details);
+    console.log(details)
     return(
       <div>
         <button type='button' className="btn btn-success" onClick={this.openModal}>Details</button>
@@ -95,8 +113,9 @@ class DetailsModal extends Component {
         </ul>
         <div className="modal-footer">
           <button type="button" className="btn btn-primary" onClick={this.onCloseButton}>
-            Fire phasers
+            Close
           </button>
+          <CondEditButton details={details} {...this.props}/>
         </div>
       </Modal>
       </div>

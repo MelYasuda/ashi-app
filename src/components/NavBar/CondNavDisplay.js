@@ -19,7 +19,7 @@ function SignedIn(props){
   return(
   <ul className="navbar-nav ml-auto">
     <li className="nav-item active">
-      <a className="nav-link" href="#/create">
+      <a className="nav-link" href="#/listings/create">
         <FontAwesomeIcon icon="plus" />
       </a>
     </li>
