@@ -17,7 +17,7 @@ const CondCreateForm = (props) => {
     history={props.history} 
     onCategoryForm={props.onCategoryForm}/>
   } else if(categoryDisplayed==="apartment") {
-    return <ApartmentListingForm 
+    return <RoomListingForm 
     category={categoryDisplayed}
     history={props.history} 
     onCategoryForm={props.onCategoryForm}/>
@@ -46,8 +46,8 @@ class CreateListing extends Component {
             <h1>CreateListing</h1>
             <div className="row">
               <CreateListingIcon label='Looking For A Roommate' name={"roommate"} onCategoryForm={this.handleCategoryForm} />
-              <CreateListingIcon label='Looking For A Room' name={"room"} onCategoryForm={this.handleCategoryForm} />
-              <CreateListingIcon label='Lookng For An Apartment' name={"apartment"} onCategoryForm={this.handleCategoryForm}/>
+              <CreateListingIcon label='Looking For A Room To Rent' name={"room"} onCategoryForm={this.handleCategoryForm} />
+              <CreateListingIcon label='Lookng For An Apartment To Rent' name={"apartment"} onCategoryForm={this.handleCategoryForm}/>
             </div>
           </div>
       );

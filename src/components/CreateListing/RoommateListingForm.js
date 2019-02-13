@@ -10,7 +10,16 @@ let selectedFile =[];
 class RoommateListingForm extends Component {
   constructor(props){
     super(props);
-    this.state = {}
+    this.state = {
+      currentUid: null,
+    }
+  }
+
+  componentDidMount(){
+    const currentUid = firebase.auth().currentUser.uid;
+    this.setState({
+      currentUid: currentUid,
+    })
   }
 
   handleGoBack = () => {
@@ -20,10 +29,10 @@ class RoommateListingForm extends Component {
   backToCreateSelection = (value) => {
     this.props.onCategoryForm(value)
   }
+  
 
   handleCreateListing = (values) => {
     console.log(values);
-    const filePaths = [];
     const promises = [];
     const handlePhotosSubmit = () => {
       for(let i=0; i<selectedFile.length; i++){
@@ -35,7 +44,6 @@ class RoommateListingForm extends Component {
             return snapshot.ref.getDownloadURL();
         }).then(downloadURL => {
           const filePath = downloadURL;
-          console.log(filePath);
           resolve(filePath);
           })
       })
@@ -50,9 +58,9 @@ class RoommateListingForm extends Component {
         const cityCountry = place.split(',');
         const city = cityCountry[0];
         const country = cityCountry[1];
+        const currentUid = this.state.currentUid;
         const category = 'Roommate';
         const {title, introduction, pets, parties, clean, smoke, bedTime, deposit, duration, rent, age} = values;
-        const currentUid = firebase.auth().currentUser.uid;
         firebase.database().ref(`Posts/${country}/${city}/${currentUid}/${category}`).push().set({
           "AgeInfo": age,
           "CleaningDetails": clean,
@@ -81,7 +89,10 @@ class RoommateListingForm extends Component {
 
 
     const handleRouteToListing = () => {
-      console.log('tolisting')
+      this.props.history.push({
+        pathname: '/user',
+        search: '?id=' + this.state.currentUid
+      })
     }
 
     handlePhotosSubmit().then(handleWriteListing).then(handleRouteToListing)
@@ -92,7 +103,6 @@ class RoommateListingForm extends Component {
     if(filePath){
       selectedFile.push(e.target.files[0]);
     }
-    console.log(selectedFile)
   }
 
 
@@ -100,7 +110,7 @@ class RoommateListingForm extends Component {
     return(
       <div>
         <div className="Roommate">
-          <h1>Roommate Listing</h1>
+          <h1>Create A Roommate Listing</h1>
             <Formik 
               initialValues={{ place: '', title: '', introduction: '', pets: '', parties: '', clean: '', smoke: '', bedTime: '', deposit: '', duration: '', rent: '', age: '' }}
               onSubmit={this.handleCreateListing}
@@ -118,7 +128,8 @@ class RoommateListingForm extends Component {
                 }) => (
                   <form onSubmit={handleSubmit}>
                     <div className="image-upload">
-                      <label for="file-input">
+                    Choose 5 photos to upload for your listing. (The first photo will be the cover photo of your post.)
+                      <label htmlFor="file-input">
                           <img id='clickable-img' src={photoUpload} alt="file upload icon"/>
                       </label>
                       <input type='file' id="file-input" onChange={this.handleFileUploadChange} name='pic' className='' />

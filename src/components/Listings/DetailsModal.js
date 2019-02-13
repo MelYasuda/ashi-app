@@ -24,6 +24,8 @@ const CondDetails = (props) => {
           <li>Bathrooms: {details["Bathroom"]}</li>
           <li>Bedrooms: {details["Bedroom"]}</li>
           <li>Deposite: {details["deposit"]}</li>
+          <li>Availability Starts: {details["StartDate"]}</li>
+          <li>Address: {details["Location Preffered"]}</li>
         </React.Fragment>
       )
   }
