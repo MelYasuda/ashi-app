@@ -125,35 +125,35 @@ class EditProfile extends Component {
               touched
               }) => (
                 <form onSubmit={handleSubmit}>
-                <div className="image-upload">
-                  <label htmlFor="file-input">
-                      <img src={this.state.user.profileImageUrl} alt="file upload icon"/>
-                  </label>
-                  <input type='file' id="file-input" onChange={this.handleFileUploadChange} name='pic' className='' />
-                </div>
-                <TextForm
-                  title='Username'
-                  value={values.userName}
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                  name='userName'
-                  error={touched.userName && errors.userName}
-                  />
-                <TextForm
-                  title='Bio'
-                  value={values.bio}
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                  name='bio'
-                  error={touched.bio && errors.bio}
-                  />
+                  <div className="image-upload">
+                    <label htmlFor="file-input">
+                        <img src={this.state.user.profileImageUrl} alt="file upload icon"/>
+                    </label>
+                    <input type='file' id="file-input" onChange={this.handleFileUploadChange} name='pic' className='' />
+                  </div>
                   <TextForm
-                  title='Website'
-                  value={values.website}
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                  name='website'
-                  />
+                    title='Username'
+                    value={values.userName}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    name='userName'
+                    error={touched.userName && errors.userName}
+                    />
+                  <TextForm
+                    title='Bio'
+                    value={values.bio}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    name='bio'
+                    error={touched.bio && errors.bio}
+                    />
+                    <TextForm
+                    title='Website'
+                    value={values.website}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    name='website'
+                    />
                   <label>You are</label>
                   <select
                       className="form-control" 
@@ -173,8 +173,8 @@ class EditProfile extends Component {
                 </form>
               )}
             />
-          </div>
         </div>
+      </div>
     )
   }
 }

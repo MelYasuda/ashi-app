@@ -1,7 +1,11 @@
 import React, { Component } from 'react';
 import TextForm from "../TextForm/TextForm"
 import { Formik } from 'formik';
-import * as Yup from 'yup'; 
+import * as Yup from 'yup';
+import photoUpload from '../../assets/img/upload.png'
+import * as firebase from 'firebase';
+
+let selectedFile =[];
 
 class RoommateListingForm extends Component {
   constructor(props){
@@ -17,9 +21,80 @@ class RoommateListingForm extends Component {
     this.props.onCategoryForm(value)
   }
 
-  handleSignin = (values) => {
+  handleCreateListing = (values) => {
     console.log(values);
+    const filePaths = [];
+    const promises = [];
+    const handlePhotosSubmit = () => {
+      for(let i=0; i<selectedFile.length; i++){
+      promises.push(new Promise((resolve, reject) => {
+          const storageService = firebase.storage();
+          const storageRef = storageService.ref();
+          const uploadTask = storageRef.child(`Screenshots/${selectedFile[i].name}`).put(selectedFile[i]); 
+          uploadTask.then(snapshot => {
+            return snapshot.ref.getDownloadURL();
+        }).then(downloadURL => {
+          const filePath = downloadURL;
+          console.log(filePath);
+          resolve(filePath);
+          })
+      })
+      )
+    }
+    return Promise.all(promises)
+    }
+
+    const handleWriteListing = (filePaths) => {
+      return new Promise((resolve, reject)=> {
+        const place = values.place;
+        const cityCountry = place.split(',');
+        const city = cityCountry[0];
+        const country = cityCountry[1];
+        const category = 'Roommate';
+        const {title, introduction, pets, parties, clean, smoke, bedTime, deposit, duration, rent, age} = values;
+        const currentUid = firebase.auth().currentUser.uid;
+        firebase.database().ref(`Posts/${country}/${city}/${currentUid}/${category}`).push().set({
+          "AgeInfo": age,
+          "CleaningDetails": clean,
+          "DepositeDetails" : deposit,
+          "DurationDetails" : duration,
+          "Location Preffered" : city,
+          "PartyDetails" : parties,
+          "PetDetails" : pets,
+          "PickUpCoordinate" : [ 42.3602558, -71.0572791 ],
+          "Post Description" : introduction,
+          "Rent" : rent,
+          "Screenshots" : filePaths,
+          "SleepingDetails" : bedTime,
+          "SmokeDetails" : smoke,
+          "Title" : title,
+          "creationDate" : '',
+          "imageHeight" : 1262,
+          "imageUrl" : filePaths[0],
+          "imageWidth" : 1125,
+          "passengerKey" : currentUid
+        })
+        console.log(city, country)
+      resolve()
+      })
+    }
+
+
+    const handleRouteToListing = () => {
+      console.log('tolisting')
+    }
+
+    handlePhotosSubmit().then(handleWriteListing).then(handleRouteToListing)
   }
+
+  handleFileUploadChange = (e) => {
+    const filePath = e.target.files[0];
+    if(filePath){
+      selectedFile.push(e.target.files[0]);
+    }
+    console.log(selectedFile)
+  }
+
 
   render(){
     return(
@@ -28,7 +103,7 @@ class RoommateListingForm extends Component {
           <h1>Roommate Listing</h1>
             <Formik 
               initialValues={{ place: '', title: '', introduction: '', pets: '', parties: '', clean: '', smoke: '', bedTime: '', deposit: '', duration: '', rent: '', age: '' }}
-              onSubmit={this.handleSignin}
+              onSubmit={this.handleCreateListing}
               validationSchema={Yup.object().shape({
                 title: Yup.string().required('Title address is required'),
                 place: Yup.string().required('Place needs to be provided')
@@ -42,6 +117,12 @@ class RoommateListingForm extends Component {
                 touched
                 }) => (
                   <form onSubmit={handleSubmit}>
+                    <div className="image-upload">
+                      <label for="file-input">
+                          <img id='clickable-img' src={photoUpload} alt="file upload icon"/>
+                      </label>
+                      <input type='file' id="file-input" onChange={this.handleFileUploadChange} name='pic' className='' />
+                    </div>
                     <TextForm
                       title='Please enter your address or place where you are looking for a roommate:'
                       label='Address or place'

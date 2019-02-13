@@ -8,11 +8,19 @@ import ApartmentListingForm from './ApartmentListingForm';
 const CondCreateForm = (props) => {
   const categoryDisplayed = props.categoryDisplayed;
   if(categoryDisplayed==="room"){
-    return <RoomListingForm history={props.history} onCategoryForm={props.onCategoryForm}/>
+    return <RoomListingForm 
+    category={categoryDisplayed} 
+    history={props.history} onCategoryForm={props.onCategoryForm}/>
   } else if(categoryDisplayed==="roommate"){
-    return <RoommateListingForm  history={props.history} onCategoryForm={props.onCategoryForm}/>
+    return <RoommateListingForm
+    category={categoryDisplayed}
+    history={props.history} 
+    onCategoryForm={props.onCategoryForm}/>
   } else if(categoryDisplayed==="apartment") {
-    return <ApartmentListingForm history={props.history} onCategoryForm={props.onCategoryForm}/>
+    return <ApartmentListingForm 
+    category={categoryDisplayed}
+    history={props.history} 
+    onCategoryForm={props.onCategoryForm}/>
   } else {
     console.log(categoryDisplayed)
     return null

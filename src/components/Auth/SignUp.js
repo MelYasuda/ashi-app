@@ -41,9 +41,8 @@ class SignUp extends Component {
         const uid = user.uid;
         const uploadTask = storageRef.child(`profile_images/${selectedFile.name}`).put(selectedFile); 
         uploadTask.then(snapshot => {
-          return snapshot.ref.getDownloadURL();   // Will return a promise with the download link
+          return snapshot.ref.getDownloadURL();
       }).then(downloadURL => {
-        console.log(`Successfully uploaded file and got download link - ${downloadURL}`);
         const filePath = downloadURL;
         const containerObject = {};
         containerObject['uid'] = uid;
