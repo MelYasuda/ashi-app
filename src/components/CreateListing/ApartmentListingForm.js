@@ -63,6 +63,7 @@ class ApartmentListingForm extends Component {
 
     const handleWriteListing = (filePaths) => {
       return new Promise((resolve, reject)=> {
+        const screenShots = filePaths.slice(1);
         const address = values.address;
         const cityCountry = address.split(',');
         const city = cityCountry[0];
@@ -78,7 +79,7 @@ class ApartmentListingForm extends Component {
           "PickUpCoordinate" : [ 42.3602558, -71.0572791 ],
           "Post Description": desc,
           "Rent" : budget,
-          "Screenshots" : filePaths,
+          "Screenshots" : screenShots,
           "Title" : title,
           "creationDate" : 1.533240483371027E9,
           "deposit": deposit,

@@ -3,7 +3,8 @@ import * as firebase from 'firebase';
 import TextForm from "../TextForm/TextForm"
 import { Formik } from 'formik';
 import * as Yup from 'yup';
-import photoUpload from '../../assets/img/upload.png'
+
+let selectedFile;
 
 class EditApartmentListing extends Component {
 
@@ -11,7 +12,10 @@ class EditApartmentListing extends Component {
     super(props);
     this.state = {
       isLading: true,
-      listingValue: null
+      listingValue: null,
+      listingId: null,
+      category: null,
+      currentUid: null
     }
   }
 
@@ -40,27 +44,102 @@ class EditApartmentListing extends Component {
       category = 'Shared Apartments';
     }
     
+    this.setState({
+      currentUid: uid,
+      category:category
+    });
 
     const getListingDetails = () => {
       return new Promise((resolve, reject) => {
         database.ref(`Posts/${country}/${city}/${uid}/${category}/${listingId}/`).on('value',  (snapshot) =>{
           const listingValue = snapshot.val();
           this.setState({
-            listingValue: listingValue
+            listingValue: listingValue,
+            listingId: listingId
           })
           resolve();
         })
       })
     }
 
-    const redirectToListingPage = () => {
+    const loadPage = () => {
       this.setState({
         isLading: false
       })
       console.log('redirect')
     }
 
-    getListingDetails().then(redirectToListingPage)
+    getListingDetails().then(loadPage)
+  }
+
+  handleFileUploadChange = (e) => {
+    selectedFile = e.target.files[0];
+  }
+
+  handleEditListing = (values) => {
+    let updatedProfileImageUrl = '';
+    const difineProfileImageUrl = () => {
+      return new Promise((resolve, reject) => {
+        if(selectedFile){
+          console.log(selectedFile)
+          const storageService = firebase.storage();
+          const storageRef = storageService.ref();
+          const uploadTask = storageRef.child(`Screenshots/${selectedFile.name}`).put(selectedFile); 
+          uploadTask.then(snapshot => {
+            return snapshot.ref.getDownloadURL(); 
+        }).then(downloadURL => { 
+          updatedProfileImageUrl = downloadURL;
+          resolve()
+         })
+        } else {
+          updatedProfileImageUrl = this.state.listingValue.imageUrl;
+          resolve()
+        }
+      })
+    }
+
+    const handleWriteListing = (filePaths) => {
+      return new Promise((resolve, reject)=> {
+        const listingValue = this.state.listingValue;
+        const screenShots = listingValue['Screenshots'];
+        const address = values.address;
+        const cityCountry = address.split(',');
+        const city = cityCountry[0];
+        const country = cityCountry[1];
+        const currentUid = listingValue.passengerKey;
+        const category = this.state.category;
+        const {title, desc, bedrooms, bathrooms, preferredCity, deposit, startDate, budget} = values;
+        firebase.database().ref(`Posts/${country}/${city}/${currentUid}/${category}/${this.state.listingId}`).set({
+          "Bathroom": bathrooms,
+          "Bedroom": bedrooms,
+          "CityName": city,
+          "Location Preffered": preferredCity,
+          "PickUpCoordinate" : [ 42.3602558, -71.0572791 ],
+          "Post Description": desc,
+          "Rent" : budget,
+          "Screenshots" : screenShots,
+          "Title" : title,
+          "creationDate" : 1.533240483371027E9,
+          "deposit": deposit,
+          "imageHeight" : 1262,
+          "imageUrl" : updatedProfileImageUrl,
+          "imageWidth" : 1125,
+          "passengerKey" : currentUid,
+          "StartDate": startDate
+        })
+      resolve()
+      })
+    }
+
+    const handleRouteToEditedListing = () => {
+      this.props.history.push({
+        pathname: '/user',
+        search: '?id=' + this.state.currentUid
+      })
+      console.log('route');
+    }
+
+    difineProfileImageUrl().then(handleWriteListing).then(handleRouteToEditedListing)
   }
 
   render(){
@@ -69,13 +148,15 @@ class EditApartmentListing extends Component {
     const listingValue = this.state.listingValue;
     const {Bathroom, Bedroom, CityName, Rent, StartDate, Title, deposit} = listingValue;
     const preferredCity = listingValue['Location Preffered'];
-    const desc = listingValue['Post Description']
+    const desc = listingValue['Post Description'];
+    const thumbnail = listingValue['imageUrl'];
+
     return(
       <div className='container'>
         <h1>EditApartmentListing</h1>
         <Formik 
               initialValues={{ address: CityName, title: Title, desc: desc, bedrooms: Bedroom, bathrooms: Bathroom, budget: Rent, deposit: deposit, startDate: StartDate, preferredCity: preferredCity }}
-              onSubmit={this.handleCreateListing}
+              onSubmit={this.handleEditListing}
               validationSchema={Yup.object().shape({
                 title: Yup.string().required('Title address is required'),
                 address: Yup.string().required('Place needs to be provided')
@@ -86,16 +167,26 @@ class EditApartmentListing extends Component {
                 handleChange,
                 handleBlur,
                 errors,
-                touched
+                touched,
                 }) => (
                   <form onSubmit={handleSubmit}>
                     <div className="image-upload">
+                    You can choose a different thumbnail photo for your listing.
+                      <label htmlFor="thumbnail-input">
+                        <img id='clickable-img' src={thumbnail} alt="file upload icon"/>
+                      </label>
+                      <input type='file' id="thumbnail-input" onChange={this.handleFileUploadChange} name='pic' className='' />
+                    </div>
+
+
+                    {/* <div className="image-upload">
                     Choose 5 photos to upload for your listing. (The first photo will be the cover photo of your post.)
                       <label htmlFor="file-input">
-                          <img id='clickable-img' src={photoUpload} alt="file upload icon"/>
+                        <img id='clickable-img' src={photoUpload} alt="file upload icon"/>
                       </label>
                       <input type='file' id="file-input" onChange={this.handleFileUploadChange} name='pic' className='' />
-                    </div>
+                    </div> */}
+
                     <TextForm
                       title='Please enter your address of your property:'
                       label='Address'

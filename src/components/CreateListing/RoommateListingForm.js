@@ -54,6 +54,7 @@ class RoommateListingForm extends Component {
 
     const handleWriteListing = (filePaths) => {
       return new Promise((resolve, reject)=> {
+        const screenShots = filePaths.slice(1);
         const place = values.place;
         const cityCountry = place.split(',');
         const city = cityCountry[0];
@@ -72,7 +73,7 @@ class RoommateListingForm extends Component {
           "PickUpCoordinate" : [ 42.3602558, -71.0572791 ],
           "Post Description" : introduction,
           "Rent" : rent,
-          "Screenshots" : filePaths,
+          "Screenshots" : screenShots,
           "SleepingDetails" : bedTime,
           "SmokeDetails" : smoke,
           "Title" : title,
