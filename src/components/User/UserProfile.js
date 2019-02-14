@@ -57,32 +57,28 @@ class UserProfile extends Component {
               const city = country[cityKey];
               for(const uid in city){
                 if(uid===user.uid){
-                userListings.push(city[uid])
+                  Object.keys(city[uid]).map(categoryKey=> {
+                    const listing = city[uid][categoryKey];
+                   Object.keys(listing).map(listingKey => {
+                      const details = listing[listingKey];
+                      if(categoryKey==="Roommate"){
+                        details["category"] = 0
+                        } else if (categoryKey==="Solo Apartments"){
+                        details["category"] = 1
+                        } else if (categoryKey==="Shared Apartments"){
+                        details["category"] = 2
+                        }
+                        details["country"] = countryKey;
+                        details["listingId"] = listingKey;
+                        userListings.push(details);
+                    })
+                  })
                 }
               }
             }
           }
           console.log(userListings)
-          const listingDetails = [];
-          userListings.forEach((listings) => {
-            Object.keys(listings).map(categoryKey=> {
-              const listing = listings[categoryKey];
-             Object.keys(listing).map(listingKey => {
-                const details = listing[listingKey];
-                if(categoryKey==="Roommate"){
-                  details["category"] = 0
-                  } else if (categoryKey==="Solo Apartments"){
-                  details["category"] = 1
-                  } else if (categoryKey==="Shared Apartments"){
-                  details["category"] = 2
-                  }
-                  details["listingId"] = listingKey;
-                listingDetails.push(details);
-              })
-            })
-          })
-          console.log(listingDetails)
-          objectContainer['userListings']=listingDetails;
+          objectContainer['userListings']=userListings;
           resolve(objectContainer)
         })
       })

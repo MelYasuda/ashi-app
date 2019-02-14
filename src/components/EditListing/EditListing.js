@@ -4,11 +4,10 @@ import EditApartmentListing from './EditApartmentListing';
 
 
 function EditListing(props) {
-  console.log(props.details)
   if(props.categoryId===0){
-    return <EditRoommateListing details={props.details}/>  
+    return <EditRoommateListing {...props}/>  
   } else {
-    return <EditApartmentListing details={props.details}/>
+    return <EditApartmentListing {...props}/>
   }
 }
 
