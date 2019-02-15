@@ -11,7 +11,7 @@ class EditApartmentListing extends Component {
   constructor(props){
     super(props);
     this.state = {
-      isLading: true,
+      isLoading: true,
       listingValue: null,
       listingId: null,
       category: null,
@@ -64,7 +64,7 @@ class EditApartmentListing extends Component {
 
     const loadPage = () => {
       this.setState({
-        isLading: false
+        isLoading: false
       })
       console.log('redirect')
     }
@@ -144,7 +144,7 @@ class EditApartmentListing extends Component {
 
   render(){
     console.log(this.state.listingValue);
-    if(this.state.isLading) return null;
+    if(this.state.isLoading) return null;
     const listingValue = this.state.listingValue;
     const {Bathroom, Bedroom, CityName, Rent, StartDate, Title, deposit} = listingValue;
     const preferredCity = listingValue['Location Preffered'];

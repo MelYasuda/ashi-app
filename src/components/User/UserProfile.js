@@ -68,6 +68,7 @@ class UserProfile extends Component {
                         } else if (categoryKey==="Shared Apartments"){
                         details["category"] = 2
                         }
+                        details["city"] = cityKey;
                         details["country"] = countryKey;
                         details["listingId"] = listingKey;
                         userListings.push(details);

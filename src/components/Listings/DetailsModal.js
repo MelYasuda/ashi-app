@@ -35,13 +35,13 @@ const CondDetails = (props) => {
 const CondEditButton = (props) => {
   const queryUid = props.history.location.search.split('=')[1];
   const currentUid = firebase.auth().currentUser.uid;
-  const {listingId, country,CityName, passengerKey, category} = props.details;
+  const {listingId, country,city, passengerKey, category} = props.details;
 
 
   const routeToEditPage = () => {
     props.history.push({
       pathname: 'listings/edit',
-      search: '?country=' + country + '?city=' + CityName + '?id=' + passengerKey + '?category=' + category + '?listingId=' + listingId
+      search: '?country=' + country + '?city=' + city + '?id=' + passengerKey + '?category=' + category + '?listingId=' + listingId
     });
   }
   console.log(props.details)
