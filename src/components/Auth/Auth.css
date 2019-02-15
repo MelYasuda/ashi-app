@@ -19,5 +19,7 @@
 }
 
 #clickable-img {
-  margin-left: 60%
+  margin-left: 50%;
+  width: 200px;
+  border-radius: 20px
 }

@@ -46,8 +46,45 @@ const CondEditButton = (props) => {
   }
   console.log(props.details)
 
+    const handleDelete = () => {
+      console.log('delete')
+
+      let categoryName = '';
+      if(category===0){
+        categoryName = 'Roommate'
+      } else if (category===1){
+        categoryName = 'Solo Apartments';
+      } else {
+        categoryName = 'Shared Apartments'
+      }
+
+        const ref = firebase.database().ref(`Posts/${country}/${city}/${passengerKey}/${categoryName}/${listingId}/`);
+        ref.remove()
+        .then(
+          props.history.push({
+            pathname: '/',
+            search: '?id=' + currentUid
+          })
+        )
+
+
+
+        // firebase.database().ref(`Posts/${country}/${city}/${passengerKey}/`).on('value', (snapshot) => {
+        //   let value = snapshot.val();
+        //   console.log(value);
+        // })
+    }
+
+
+
   if(queryUid===currentUid){
-    return <button className="btn btn-primary" onClick={()=>routeToEditPage()}>Edit</button>
+    return (
+      <div>
+        <button className="btn btn-primary" onClick={()=>routeToEditPage()}>Edit</button>
+        <button className="btn btn-danger" onClick={()=>handleDelete()}>Delete</button>
+      </div>
+    )
+    
   } else {
     return null
   }

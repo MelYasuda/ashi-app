@@ -10,6 +10,13 @@ let selectedFile = '';
 
 class SignUp extends Component {
 
+  constructor(props){
+    super(props);
+    this.state = {
+      file: fileUpload
+    }
+  }
+
   handleSignup = (values, {resetForm}) => {
     const {email, password, userName, bio} = values;
     const auth = () => {
@@ -67,10 +74,12 @@ class SignUp extends Component {
       })
     }
     
-
-    auth().then(userId).then(handleProfilePhotoSubmit).then(addImgUrlToUserData).then( () => {
-      this.props.history.push("/");
-    })
+    if(selectedFile){
+      auth().then(userId).then(handleProfilePhotoSubmit).then(addImgUrlToUserData).then( () => {
+        this.props.history.push("/");
+      })} else {
+        alert("Please select your profile photo.")
+      }
 
   }
 
@@ -78,6 +87,9 @@ class SignUp extends Component {
   handleFileUploadChange = (e) => {
     selectedFile = e.target.files[0];
     console.log(selectedFile)
+    this.setState({
+      file: URL.createObjectURL(selectedFile)
+    })
   }
 
   render() {
@@ -110,8 +122,10 @@ class SignUp extends Component {
               }) => (
                 <form onSubmit={handleSubmit}>
                 <div className="image-upload">
-                  <label for="file-input">
-                      <img id='clickable-img' src={fileUpload} alt="file upload icon"/>
+                  <label htmlFor="file-input">
+                      <img id='clickable-img' 
+                      src={this.state.file} 
+                      alt="file upload icon"/>
                   </label>
                   <input type='file' id="file-input" onChange={this.handleFileUploadChange} name='pic' className='' />
                 </div>

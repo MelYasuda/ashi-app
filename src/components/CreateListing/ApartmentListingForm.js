@@ -4,15 +4,36 @@ import { Formik } from 'formik';
 import * as Yup from 'yup';
 import photoUpload from '../../assets/img/upload.png'
 import * as firebase from 'firebase';
+import './CreateListing.css';
 
 let selectedFile =[];
+
+const FilesPreview = (props) => {
+  const files = props.files;
+  console.log(files)
+  return(
+    files.map( file =>
+      <img id='multi-img' src={URL.createObjectURL(file)}/>
+  )
+  )
+} 
+
+
+const CondFilePreview = (props) => {
+  const files = props.files;
+  if(files){
+    return (<FilesPreview files={files}/>)
+  }
+   return null
+}
 
 class ApartmentListingForm extends Component {
   constructor(props){
     super(props);
     this.state = {
       currentUid: null,
-      selectedCategory: null
+      selectedCategory: null,
+      files: null
     }
   }
 
@@ -101,13 +122,20 @@ class ApartmentListingForm extends Component {
       })
     }
 
+    if(selectedFile.length>=2){
     handlePhotosSubmit().then(handleWriteListing).then(handleRouteToListing)
+    } else {
+      alert('Please select at least 2 images');
+    }
   }
 
   handleFileUploadChange = (e) => {
     const filePath = e.target.files[0];
     if(filePath){
       selectedFile.push(e.target.files[0]);
+      this.setState({
+        files: selectedFile
+      })
     }
   }
 
@@ -140,6 +168,9 @@ class ApartmentListingForm extends Component {
                       </label>
                       <input type='file' id="file-input" onChange={this.handleFileUploadChange} name='pic' className='' />
                     </div>
+
+                    <CondFilePreview files={this.state.files} />
+
                     <TextForm
                       title='Please enter your address of your property:'
                       label='Address'

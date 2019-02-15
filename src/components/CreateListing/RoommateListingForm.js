@@ -96,7 +96,12 @@ class RoommateListingForm extends Component {
       })
     }
 
-    handlePhotosSubmit().then(handleWriteListing).then(handleRouteToListing)
+    if(selectedFile.length>=2){
+      handlePhotosSubmit().then(handleWriteListing).then(handleRouteToListing)
+    } else {
+      alert('Please select at least 2 images');
+    }
+
   }
 
   handleFileUploadChange = (e) => {

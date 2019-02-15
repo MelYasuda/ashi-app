@@ -11,7 +11,8 @@ class EditProfile extends Component {
     super(props);
     this.state = {
       isLoading: true,
-      user: null
+      user: null,
+      file: null
     }
 
     const selectedUid = this.props.location.search.split('=')[1];
@@ -33,6 +34,7 @@ class EditProfile extends Component {
       const userDetails = objectContainer.userDetails;
       this.setState({
         user: userDetails,
+        file: userDetails.profileImageUrl
       });
       this.setState({isLoading: false})
     }
@@ -92,7 +94,9 @@ class EditProfile extends Component {
 
   handleFileUploadChange = (e) => {
     selectedFile = e.target.files[0];
-    console.log(selectedFile)
+    this.setState({
+      file: URL.createObjectURL(selectedFile)
+    })
   }
 
   render(){
@@ -127,7 +131,7 @@ class EditProfile extends Component {
                 <form onSubmit={handleSubmit}>
                   <div className="image-upload">
                     <label htmlFor="file-input">
-                        <img src={this.state.user.profileImageUrl} alt="file upload icon"/>
+                        <img src={this.state.file} alt="file upload icon"/>
                     </label>
                     <input type='file' id="file-input" onChange={this.handleFileUploadChange} name='pic' className='' />
                   </div>
