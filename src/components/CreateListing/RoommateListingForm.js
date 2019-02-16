@@ -7,11 +7,31 @@ import * as firebase from 'firebase';
 
 let selectedFile =[];
 
+const FilesPreview = (props) => {
+  const files = props.files;
+  console.log(files)
+  return(
+    files.map( file =>
+      <img id='multi-img' src={URL.createObjectURL(file)}/>
+  )
+  )
+} 
+
+
+const CondFilePreview = (props) => {
+  const files = props.files;
+  if(files){
+    return (<FilesPreview files={files}/>)
+  }
+   return null
+}
+
 class RoommateListingForm extends Component {
   constructor(props){
     super(props);
     this.state = {
       currentUid: null,
+      files: null
     }
   }
 
@@ -108,6 +128,9 @@ class RoommateListingForm extends Component {
     const filePath = e.target.files[0];
     if(filePath){
       selectedFile.push(e.target.files[0]);
+      this.setState({
+        files: selectedFile
+      })
     }
   }
 
@@ -140,6 +163,9 @@ class RoommateListingForm extends Component {
                       </label>
                       <input type='file' id="file-input" onChange={this.handleFileUploadChange} name='pic' className='' />
                     </div>
+
+                    <CondFilePreview files={this.state.files}/>
+
                     <TextForm
                       title='Please enter your address or place where you are looking for a roommate:'
                       label='Address or place'

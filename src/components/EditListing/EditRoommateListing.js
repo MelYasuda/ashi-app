@@ -15,7 +15,8 @@ class EditRoommateListing extends Component {
       listingValue: null,
       listingId: null,
       category: null,
-      currentUid: null
+      currentUid: null,
+      file: null
     }
   }
 
@@ -51,11 +52,13 @@ class EditRoommateListing extends Component {
 
     const getListingDetails = () => {
       return new Promise((resolve, reject) => {
-        database.ref(`Posts/${country}/${city}/${uid}/${category}/${listingId}/`).on('value',  (snapshot) =>{
+        database.ref(`Posts/${country}/${city}/${uid}/${category}/${listingId}/`).once('value',  (snapshot) =>{
           const listingValue = snapshot.val();
+          const file = listingValue['imageUrl']
           this.setState({
             listingValue: listingValue,
-            listingId: listingId
+            listingId: listingId,
+            file: file
           })
           resolve();
         })
@@ -74,6 +77,9 @@ class EditRoommateListing extends Component {
 
   handleFileUploadChange = (e) => {
     selectedFile = e.target.files[0];
+    this.setState({
+      file: URL.createObjectURL(selectedFile)
+    })
   }
 
   handleEditListing = (values) => {
@@ -98,7 +104,7 @@ class EditRoommateListing extends Component {
       })
     }
 
-    const handleWriteListing = (filePaths) => {
+    const handleWriteListing = () => {
       return new Promise((resolve, reject)=> {
         const listingValue = this.state.listingValue;
         const screenShots = listingValue['Screenshots'];
@@ -126,7 +132,7 @@ class EditRoommateListing extends Component {
           "Title" : title,
           "creationDate" : '',
           "imageHeight" : 1262,
-          "imageUrl" : filePaths[0],
+          "imageUrl" : updatedProfileImageUrl,
           "imageWidth" : 1125,
           "passengerKey" : currentUid
         })
@@ -152,7 +158,7 @@ class EditRoommateListing extends Component {
     const {AgeInfo, CleaningDetails, DurationDetails, DepositeDetails, Rent, PartyDetails, Title, PetDetails, SleepingDetails, SmokeDetails, } = listingValue;
     const preferredCity = listingValue['Location Preffered'];
     const desc = listingValue['Post Description'];
-    const thumbnail = listingValue['imageUrl'];
+    const thumbnail = this.state.file;
 
     return(
       <div className='container'>
