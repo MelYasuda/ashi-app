@@ -2,93 +2,9 @@ import React, { Component } from 'react';
 import Modal from 'react-bootstrap4-modal';
 import './Listings.css'
 import Carousel from './Carousel';
-import * as firebase from 'firebase';
+import CondDetails from './CondDetails'
+import CondModalButtons from './CondModalButtons'
 
-const CondDetails = (props) => {
-  const details = props.details;
-  if(details['category']===0){
-    return(
-      <React.Fragment>
-        <li>Age: {details["AgeInfo"]}</li>
-        <li>Cleaning: {details["CleaningDetails"]}</li>
-        <li>Can put deposit: {details["DepositeDetails"]}</li>
-        <li>Durasion Seeking: {details["DurationDetails"]}</li>
-        <li>Party Habits(Indoor/Outdoor): {details["PartyDetails"]}</li>
-        <li>Pets: {details["PetDetails"]}</li>
-        <li>Sleeping Time: {details["SleepingDetails"]}</li>
-        <li>Smoker: {details["SmokeDetails"]}</li>
-      </React.Fragment>
-    )
-  } else {
-      return(
-        <React.Fragment>
-          <li>Bathrooms: {details["Bathroom"]}</li>
-          <li>Bedrooms: {details["Bedroom"]}</li>
-          <li>Deposite: {details["deposit"]}</li>
-          <li>Availability Starts: {details["StartDate"]}</li>
-          <li>Address: {details["Location Preffered"]}</li>
-        </React.Fragment>
-      )
-  }
-}
-
-const CondEditButton = (props) => {
-  const queryUid = props.history.location.search.split('=')[1];
-  const currentUid = firebase.auth().currentUser.uid;
-  const {listingId, country,city, passengerKey, category} = props.details;
-
-
-  const routeToEditPage = () => {
-    props.history.push({
-      pathname: 'listings/edit',
-      search: '?country=' + country + '?city=' + city + '?id=' + passengerKey + '?category=' + category + '?listingId=' + listingId
-    });
-  }
-  console.log(props.details)
-
-    const handleDelete = () => {
-      console.log('delete')
-
-      let categoryName = '';
-      if(category===0){
-        categoryName = 'Roommate'
-      } else if (category===1){
-        categoryName = 'Solo Apartments';
-      } else {
-        categoryName = 'Shared Apartments'
-      }
-
-        const ref = firebase.database().ref(`Posts/${country}/${city}/${passengerKey}/${categoryName}/${listingId}/`);
-        ref.remove()
-        .then(
-          props.history.push({
-            pathname: '/',
-            search: '?id=' + currentUid
-          })
-        )
-
-
-
-        // firebase.database().ref(`Posts/${country}/${city}/${passengerKey}/`).on('value', (snapshot) => {
-        //   let value = snapshot.val();
-        //   console.log(value);
-        // })
-    }
-
-
-
-  if(queryUid===currentUid){
-    return (
-      <div>
-        <button className="btn btn-primary" onClick={()=>routeToEditPage()}>Edit</button>
-        <button className="btn btn-danger" onClick={()=>handleDelete()}>Delete</button>
-      </div>
-    )
-    
-  } else {
-    return null
-  }
-}
 
 class DetailsModal extends Component {
   constructor(props){
@@ -122,7 +38,6 @@ class DetailsModal extends Component {
 
   render(){
     const details = this.props.details;
-    console.log(details)
     return(
       <div>
         <button type='button' className="btn btn-success" onClick={this.openModal}>Details</button>
@@ -155,7 +70,7 @@ class DetailsModal extends Component {
           <button type="button" className="btn btn-primary" onClick={this.onCloseButton}>
             Close
           </button>
-          <CondEditButton details={details} {...this.props}/>
+          <CondModalButtons details={details} {...this.props}/>
         </div>
       </Modal>
       </div>

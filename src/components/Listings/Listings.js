@@ -17,21 +17,26 @@ class Listings extends React.Component {
     const searchQuery = this.props.listings.city;
     const upper = searchQuery.replace(/^\w/, c => c.toUpperCase());
 
+    let country = null;
+    let city = null;
+
     const americaListings = () => {
       return new Promise((resolve,reject)=>{
         database.ref("Posts/United States/" + upper + "/").on('value', (snapshot) => {
           let value = snapshot.val();
+          country = 'United States';
+          city = upper;
           resolve(value)
         })
       })
     }
 
     const canadaListings = (canadaValue) => {
-      console.log(canadaValue)
       return new Promise((resolve,reject)=>{
         if (canadaValue===null){
           database.ref("Posts/Canada/" + upper + "/").on('value',  (snapshot) =>{
             canadaValue = snapshot.val();
+            // canadaValue['city'] = upper;
             resolve(canadaValue)
           })
         } else{
@@ -42,7 +47,6 @@ class Listings extends React.Component {
 
     const posts = (value) => {
       return new Promise((resolve, reject)=>{
-        console.log(value)
       const listings = [];
       for(const uid in value) {
         const subValue = value[uid];
@@ -62,6 +66,8 @@ class Listings extends React.Component {
               } else {
               listing["category"] = 2
               }
+            listing['country'] = country;
+            listing['city'] = city;
             listing["listingKey"] = listingKey;
             listings.push(listing);
           }
