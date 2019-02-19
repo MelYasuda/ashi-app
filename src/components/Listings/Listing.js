@@ -27,7 +27,9 @@ class Listing extends React.Component {
             ${value["Rent"]} <br />
             {value["username"]}
             </p>
-            <DetailsModal details={value} history={this.props.history}/>
+            <DetailsModal saved={this.props.saved} details={value} history={this.props.history}
+            {...this.props}
+            />
           </div>
         </div>
       </div>

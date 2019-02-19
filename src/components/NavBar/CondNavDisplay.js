@@ -24,7 +24,7 @@ function SignedIn(props){
       </a>
     </li>
     <li className="nav-item active">
-      <a className="nav-link" href="#/likes">
+      <a className="nav-link" href="#/saved">
         <FontAwesomeIcon icon="heart" />
       </a>
     </li>

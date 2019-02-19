@@ -70,7 +70,7 @@ class DetailsModal extends Component {
           <button type="button" className="btn btn-primary" onClick={this.onCloseButton}>
             Close
           </button>
-          <CondModalButtons details={details} {...this.props}/>
+          <CondModalButtons saved={this.props.saved} details={details} {...this.props}/>
         </div>
       </Modal>
       </div>

@@ -17,8 +17,6 @@ const CondModalButtons = (props) => {
   }
 
     const handleDelete = () => {
-
-
       let categoryName = '';
       if(category===0){
         categoryName = 'Roommate'
@@ -38,19 +36,32 @@ const CondModalButtons = (props) => {
         )
     }
 
-
-    const handleLike = () => {
+    const handleSave = () => {
       const previousLikes = null;
-      // firebase.database().ref(`users/${currentUid}/likes`).on('value', (snapshot) => {
-      //   let likesValue = snapshot.val();
-      //   alert(likesValue)
-      // })
 
       const {listingKey, passengerKey, category, city, country} = props.details;
 
-      const ref = firebase.database().ref(`users/${currentUid}/likes`);
+      const ref = firebase.database().ref(`users/${currentUid}/saved`);
       const newChildRef = ref.push();
       newChildRef.set({listingId: listingKey, passengerKey: passengerKey, country: country, city: city, category: category})
+
+    }
+
+    const renderAfterUnsave = () => {
+      props.renderAfterUnsave()
+    }
+
+    const handleUnsave = () => {
+      const listingKey = props.details.listingKey;
+      console.log(listingKey)
+      const ref = firebase.database().ref(`users/${currentUid}`);
+      ref.child('saved').orderByChild('listingId').equalTo(listingKey).once("value").then(function(snapshot) {
+        snapshot.forEach(function(child) {
+          child.ref.remove();
+        })
+        renderAfterUnsave()
+      });
+      
     }
 
 
@@ -63,7 +74,11 @@ const CondModalButtons = (props) => {
       </div>
     )
   } else {
-    return <button className='btn btn-primary' onClick={()=>handleLike()}>Like</button>
+    if(!props.saved){
+    return <button className='btn btn-primary' onClick={()=>handleSave()}>Save</button>}
+    else {
+      return <button className='btn btn-danger'onClick={() => handleUnsave()}>Unsave</button>
+    }
   }
 }
 
