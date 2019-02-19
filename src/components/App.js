@@ -18,6 +18,7 @@ import {persistor, store} from './store/configureStore';
 import { PersistGate } from 'redux-persist/integration/react'
 import EditProfile from './User/EditProfile';
 import EditListing from './EditListing/EditListing';
+import Likes from './Likes/Likes';
 
 // const store = store;
 // const persistor = persistor;
@@ -82,6 +83,13 @@ class App extends Component {
             path="/listings/edit"
             render={props => (
               this.state.isAuthenticated===true ? <EditListing history={this.props.history} {...props}/> : <Redirect to={{ pathname: '/signin'}}
+              />
+              )}
+            />
+            <Route 
+            path="/likes"
+            render={props => (
+              this.state.isAuthenticated===true ? <Likes history={this.props.history} {...props}/> : <Redirect to={{ pathname: '/signin'}}
               />
               )}
             />
