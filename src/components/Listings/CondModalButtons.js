@@ -81,7 +81,7 @@ const CondModalButtons = (props) => {
     if(!props.saved){
     return <button className='btn btn-primary' onClick={()=>handleSave()}>Save</button>}
     else {
-      return <button className='btn btn-danger'onClick={() => handleUnsave()}>Unsave</button>
+      return <button className='btn btn-danger'onClick={() => handleUnsave()}>Saved</button>
     }
   }
 }

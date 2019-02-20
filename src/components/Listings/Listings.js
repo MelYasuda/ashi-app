@@ -46,13 +46,14 @@ class Listings extends React.Component {
     }
 
     const posts = (value) => {
-      return new Promise((resolve, reject)=>{
       const listings = [];
       for(const uid in value) {
         const subValue = value[uid];
         for(const categoryKey in subValue){
           const subSubValue = subValue[categoryKey];
           for(const listingKey in subSubValue) {
+       listings.push(new Promise((resolve, reject)=>{
+
             const listing = subSubValue[listingKey];
             const userRef = database.ref('users');
             userRef.child(uid).on('value',(snapshot) => {
@@ -70,14 +71,38 @@ class Listings extends React.Component {
             listing['city'] = city;
             listing["listingKey"] = listingKey;
             // (will)decide whether the listing is saved or not by refrering to user saves
-            listing["saved"] = false;
-            listings.push(listing);
+            console.log(listing)
+            resolve(listing)
+          })
+          )
           }
         }
-      }
-      resolve(listings)
 
-  })}
+}
+return Promise.all(listings)
+}
+
+  const checkSavedListings = (checkingListings) => {
+    return new Promise((resolve, reject)=>{
+      const currentUid = firebase.auth().currentUser.uid;
+      firebase.database().ref(`users/${currentUid}/saved`).on('value', snapshot => {
+        const savedListings = snapshot.val();
+        // console.log(savedListings, checkingListings)
+
+        for( const savedListingKey in savedListings){
+          const savedListing = savedListings[savedListingKey];
+          checkingListings.map(listing => {
+            if(savedListing.listingId === listing.listingKey){
+              listing['saved']=true
+            } else {
+              listing['saved']=false
+            }
+          })
+        }
+        resolve(checkingListings)
+      })
+    })
+  }
 
 
   const categoryKey = (listings) => {
@@ -114,7 +139,7 @@ class Listings extends React.Component {
     this.setState( {isLoading: false} )
   }
 
-  americaListings().then(canadaListings).then(posts).then(categoryKey).then(setLoadingState);
+  americaListings().then(canadaListings).then(posts).then(checkSavedListings).then(categoryKey).then(setLoadingState);
 
   //end of constructor
   }

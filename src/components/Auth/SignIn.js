@@ -17,7 +17,9 @@ class SignIn extends Component {
       // The signed-in user info.
       var user = result.user;
       // ...
-    }).catch(function(error) {
+    }).then(
+      this.props.history.push('/')
+    ).catch(function(error) {
       // Handle Errors here.
       var errorCode = error.code;
       var errorMessage = error.message;
