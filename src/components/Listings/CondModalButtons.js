@@ -36,8 +36,11 @@ const CondModalButtons = (props) => {
         )
     }
 
+    const tandleToggleSaveButton = (listingKey) => {
+      props.toggleSaveButton(listingKey);
+    }
+
     const handleSave = () => {
-      const previousLikes = null;
 
       const {listingKey, passengerKey, category, city, country} = props.details;
 
@@ -45,6 +48,7 @@ const CondModalButtons = (props) => {
       const newChildRef = ref.push();
       newChildRef.set({listingId: listingKey, passengerKey: passengerKey, country: country, city: city, category: category})
 
+      tandleToggleSaveButton(listingKey)
     }
 
     const renderAfterUnsave = () => {

@@ -9,7 +9,7 @@ class SavedListings extends Component {
     this.state = {
       savedListings: null,
       isLoading: true,
-      notSaved: true
+      saved: true
     }
   }
 
@@ -77,7 +77,7 @@ class SavedListings extends Component {
               renderAfterUnsave={this.renderAfterUnsave} 
               key={index} 
               value={likedListing} 
-              saved={this.state.notSaved} 
+              saved={this.state.saved} 
               history={this.props.history}
               handdleToggleSaveButton={this.handdleToggleSaveButton}
               />

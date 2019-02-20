@@ -69,6 +69,8 @@ class Listings extends React.Component {
             listing['country'] = country;
             listing['city'] = city;
             listing["listingKey"] = listingKey;
+            // (will)decide whether the listing is saved or not by refrering to user saves
+            listing["saved"] = false;
             listings.push(listing);
           }
         }
@@ -117,7 +119,22 @@ class Listings extends React.Component {
   //end of constructor
   }
 
+  toggleSaveButton = (listingKey) => {
+    let newState = Object.assign({}, this.state)
+    console.log(newState.results);
+    newState.results.map(result =>{
+      const data = result.data;
+      data.map(listing=>{
+        if(listing.listingKey===listingKey){
+          listing.saved = true;
+        }
+      })
+    })
+    this.setState({newState})
+  }
+
   render(){
+    console.log(this.state.results)
     if(this.state.isLoading) return null;
     return(
       <div className='container'>
@@ -128,7 +145,12 @@ class Listings extends React.Component {
             <h2>{result.category} {result.data.length}</h2>
             <div className='row' style={{paddingLeft: '8%'}}>
             {result.data.map((value, index)=> 
-                <Listing key={index} value={value} history={this.props.history}/>
+                <Listing key={index} 
+                value={value} 
+                saved={value.saved}
+                history={this.props.history}
+                toggleSaveButton={this.toggleSaveButton}
+                />
               )}
             </div>          
           </div>
