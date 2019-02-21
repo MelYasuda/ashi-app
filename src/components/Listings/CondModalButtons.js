@@ -3,6 +3,7 @@ import * as firebase from 'firebase';
 
 
 const CondModalButtons = (props) => {
+  console.log(props)
   const queryUid = props.history.location.search.split('=')[1];
   const currentUid = firebase.auth().currentUser.uid;
   const {listingId, country,city, passengerKey, category} = props.details;
@@ -63,7 +64,11 @@ const CondModalButtons = (props) => {
         snapshot.forEach(function(child) {
           child.ref.remove();
         })
-        renderAfterUnsave()
+        if(props.history.location.pathname === '/saved'){              
+          renderAfterUnsave()
+        } else if(props.history.location.pathname === '/listings'){
+          tandleToggleSaveButton(listingKey)
+        }
       });
       
     }

@@ -168,14 +168,18 @@ return Promise.all(listings)
   //end of constructor
   }
 
+
+
   toggleSaveButton = (listingKey) => {
     let newState = Object.assign({}, this.state)
     console.log(newState.results);
     newState.results.map(result =>{
       const data = result.data;
       data.map(listing=>{
-        if(listing.listingKey===listingKey){
+        if(listing.listingKey===listingKey && !listing.saved){
           listing.saved = true;
+        } else {
+          listing.saved = false;
         }
       })
     })
