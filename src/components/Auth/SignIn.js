@@ -16,7 +16,15 @@ class SignIn extends Component {
       var token = result.credential.accessToken;
       // The signed-in user info.
       var user = result.user;
-      // ...
+      const uid = user.uid;
+      const photoURL = `${user.photoURL}?width=300`;
+      firebase.database().ref('users/' + uid).set({
+        username: user.displayName,
+        email: user.email,
+        Bio: null,
+        profileImageUrl: photoURL
+      })
+
     }).then(
       this.props.history.push('/')
     ).catch(function(error) {
