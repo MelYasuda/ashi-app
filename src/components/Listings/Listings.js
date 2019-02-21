@@ -82,30 +82,54 @@ class Listings extends React.Component {
 return Promise.all(listings)
 }
 
-  const checkSavedListings = (checkingListings) => {
-    return new Promise((resolve, reject)=>{
+  const readSavedListings = (listings) => {
+    return new Promise((resolve,reject)=>{
       const currentUid = firebase.auth().currentUser.uid;
       firebase.database().ref(`users/${currentUid}/saved`).on('value', snapshot => {
         const savedListings = snapshot.val();
-        // console.log(savedListings, checkingListings)
-
-        for( const savedListingKey in savedListings){
-          const savedListing = savedListings[savedListingKey];
-          checkingListings.map(listing => {
-            if(savedListing.listingId === listing.listingKey){
-              listing['saved']=true
-            } else {
-              listing['saved']=false
-            }
-          })
-        }
-        resolve(checkingListings)
+        console.log(savedListings)
+        const containerObject = {}
+        containerObject['listings'] = listings;
+        containerObject['savedListings'] = savedListings;
+        resolve(containerObject)
       })
     })
   }
 
+  const collectSavedListingIds = (savedListings) => {
+    const savedListingIds = []
+    for(let savedListing in savedListings){
+      savedListingIds.push(savedListings[savedListing].listingId)
+    }
+    return savedListingIds
+  }
+
+  const checkSavedListings = (containerObject) => {
+      const {listings, savedListings} = containerObject;
+
+      const savedListingIds = collectSavedListingIds(savedListings);
+      console.log(savedListingIds)
+
+      const checkedSavedListings = [];
+      listings.map(listing => {
+          checkedSavedListings.push(new Promise((resolve, reject) =>{
+            if(savedListingIds.includes(listing.listingKey)){
+              listing['saved']=true;
+              resolve(listing)
+            } else {
+              listing['saved']=false;
+              resolve(listing)
+            }
+          })
+          )
+        })
+      console.log(checkedSavedListings)
+      return Promise.all(checkedSavedListings)
+  }
+
 
   const categoryKey = (listings) => {
+    console.log(listings)
     return new Promise((resolve,reject) => {
       const containerObject = {
         masterData:[
@@ -139,7 +163,7 @@ return Promise.all(listings)
     this.setState( {isLoading: false} )
   }
 
-  americaListings().then(canadaListings).then(posts).then(checkSavedListings).then(categoryKey).then(setLoadingState);
+  americaListings().then(canadaListings).then(posts).then(readSavedListings).then(checkSavedListings).then(categoryKey).then(setLoadingState);
 
   //end of constructor
   }

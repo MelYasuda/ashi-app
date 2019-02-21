@@ -47,6 +47,7 @@ class SavedListings extends Component {
       })
       )
     }
+    console.log(promises)
     return Promise.all(promises);
     }
 
