@@ -42,7 +42,7 @@ class CreateListing extends Component {
     if(!this.state.categoryDisplayed){
       return (
           <div className="CreateListing">
-            <h1>CreateListing</h1>
+            <h1 id='creat-listing-title'>What's your listing about?</h1>
             <div className="row">
               <CreateListingIcon label='Looking For A Roommate' name={"roommate"} onCategoryForm={this.handleCategoryForm} />
               <CreateListingIcon label='Looking For A Room To Rent' name={"room"} onCategoryForm={this.handleCategoryForm} />

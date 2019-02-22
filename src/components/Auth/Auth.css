@@ -25,5 +25,9 @@
 }
 
 .facebook-login {
-  width: 200px
+  width: 50px
+}
+
+#signin-btn-group, #fb-btn-group {
+  text-align: center
 }

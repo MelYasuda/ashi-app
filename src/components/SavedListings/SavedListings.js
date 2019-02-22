@@ -2,6 +2,30 @@ import React, { Component } from 'react';
 import * as firebase from 'firebase';
 import Listing from '../Listings/Listing';
 
+const SavedListingsDisplay = (props) => {
+  console.log(props.savedListings)
+    if(props.savedListings.length){
+      return(
+        <div className='row' style={{paddingLeft: '8%'}}>
+          {
+            props.savedListings.map( (likedListing, index)=>(
+                <Listing 
+                renderAfterUnsave={props.renderAfterUnsave} 
+                key={index} 
+                value={likedListing} 
+                saved={props.saved} 
+                history={props.history}
+                handdleToggleSaveButton={props.handdleToggleSaveButton}
+                />
+            ))
+          }
+        </div>
+      )
+    } else {
+      return <h3>You haven't saved any listings yet.</h3>
+    }
+}
+
 class SavedListings extends Component {
 
   constructor(props){
@@ -70,21 +94,17 @@ class SavedListings extends Component {
     if(this.state.isLoading) return null;
     return (
     <div className='container'>
-    <h1>SavedListings</h1>
-      <div className='row' style={{paddingLeft: '8%'}}>
-        {
-          this.state.savedListings.map( (likedListing, index)=>(
-              <Listing 
-              renderAfterUnsave={this.renderAfterUnsave} 
-              key={index} 
-              value={likedListing} 
-              saved={this.state.saved} 
-              history={this.props.history}
-              handdleToggleSaveButton={this.handdleToggleSaveButton}
-              />
-          ))
-        }
-      </div>
+    <h1>Saved Listings</h1>
+    <SavedListingsDisplay
+      savedListings={this.state.savedListings}
+      renderAfterUnsave={this.renderAfterUnsave}  
+      saved={this.state.saved} 
+      history={this.props.history}
+      handdleToggleSaveButton={this.handdleToggleSaveButton}
+      />
+    
+
+
 
     </div>
     )}

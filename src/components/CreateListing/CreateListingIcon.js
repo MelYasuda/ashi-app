@@ -28,10 +28,14 @@ class CreateListingIcon extends Component {
     }
     return (
       <div className='col-md-3'>
+        <div className='icon-text'>
+        {label}
         <div style={{
           backgroundImage: 'url(' + iconImage + ')',
           backgroundPosition: 'center',
-          }} className="icon-button" onClick={() => this.handleCategoryForm(name)} >{label}</div>
+          }} className="icon-button" onClick={() => this.handleCategoryForm(name)} />
+        </div>
+
       </div>
     );
   }

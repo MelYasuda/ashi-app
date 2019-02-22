@@ -88,14 +88,20 @@ class SignIn extends Component {
                     name='password'
                     error={touched.password && errors.password}
                     />
+                  <div id='signin-btn-group'>
+                  Do you have an account?
                   <button
                   type="submit"
                   className="btn btn-primary"
-                  >Submit</button>
+                  >Sing In</button>
+                  </div>
                 </form>
               )}
             />
-          <img className='facebook-login' src={facebook} onClick={()=>this.handleFacebookSignIn()} />
+            <div id='fb-btn-group'>
+              Or sign in with
+              <img className='facebook-login' src={facebook} onClick={()=>this.handleFacebookSignIn()} />
+            </div>
           </div>
       </div>
     );

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import TextForm from "../TextForm/TextForm"
 import { Formik } from 'formik';
 import * as Yup from 'yup';
-import photoUpload from '../../assets/img/upload.png'
+import photoUpload from '../../assets/img/upload.svg'
 import * as firebase from 'firebase';
 import './CreateListing.css';
 
