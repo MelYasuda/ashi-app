@@ -110,7 +110,7 @@ class UserProfile extends Component {
     return(
       <div className='UserProfile'>
         <h1>{username}</h1>
-        <img id='profile-photo' src={profileImageUrl} alt='profile'  />
+        <img className='profile-photo' src={profileImageUrl} alt='profile'  />
         <EditButton uid={uid} history={this.props.history} />
         <ul id='profile-details'>
           <li>{Bio}</li>

@@ -107,7 +107,7 @@ class EditProfile extends Component {
     const user = this.state.user;
     const websiteValue = user.Website ? user.Website: ''
     return(
-      <div className="EditProfile">
+      <div className="Auth">
         <div className='form-border'>
           <p>Edit profile</p>
           <Formik 
@@ -133,7 +133,7 @@ class EditProfile extends Component {
                 <form onSubmit={handleSubmit}>
                   <div className="image-upload">
                     <label htmlFor="file-input">
-                        <img src={this.state.file} alt="file upload icon"/>
+                        <img src={this.state.file} className='profile-photo' alt="file upload icon"/>
                     </label>
                     <input type='file' id="file-input" onChange={this.handleFileUploadChange} name='pic' className='' />
                   </div>

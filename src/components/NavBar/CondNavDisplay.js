@@ -29,8 +29,8 @@ function SignedIn(props){
       </a>
     </li>
     <li className="nav-item active">
-      <a className="nav-link" onClick={()=>handleUserProfile()}>
-        <FontAwesomeIcon icon="user" />
+      <a className="nav-link" onClick={()=>handleUserProfile()} href="#/user">
+        <FontAwesomeIcon icon="user"/>
       </a>
     </li>
     <li className="nav-item active">
