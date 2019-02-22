@@ -4,6 +4,8 @@ import TextForm from "../TextForm/TextForm"
 import { Formik } from 'formik';
 import * as Yup from 'yup';
 
+const uuidv4 = require('uuid/v4');
+
 let selectedFile;
 
 class EditApartmentListing extends Component {
@@ -90,7 +92,7 @@ class EditApartmentListing extends Component {
           console.log(selectedFile)
           const storageService = firebase.storage();
           const storageRef = storageService.ref();
-          const uploadTask = storageRef.child(`Screenshots/${selectedFile.name}`).put(selectedFile); 
+          const uploadTask = storageRef.child(`Screenshots/${uuidv4()}`).put(selectedFile); 
           uploadTask.then(snapshot => {
             return snapshot.ref.getDownloadURL(); 
         }).then(downloadURL => { 

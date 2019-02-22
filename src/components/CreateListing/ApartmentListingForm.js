@@ -6,6 +6,8 @@ import photoUpload from '../../assets/img/upload.png'
 import * as firebase from 'firebase';
 import './CreateListing.css';
 
+const uuidv4 = require('uuid/v4');
+
 let selectedFile =[];
 
 const FilesPreview = (props) => {
@@ -69,7 +71,7 @@ class ApartmentListingForm extends Component {
       promises.push(new Promise((resolve, reject) => {
           const storageService = firebase.storage();
           const storageRef = storageService.ref();
-          const uploadTask = storageRef.child(`Screenshots/${selectedFile[i].name}`).put(selectedFile[i]); 
+          const uploadTask = storageRef.child(`Screenshots/${uuidv4()}`).put(selectedFile[i]); 
           uploadTask.then(snapshot => {
             return snapshot.ref.getDownloadURL();
         }).then(downloadURL => {

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import * as firebase from 'firebase';
 import Listing from '../Listings/Listing';
+import './User.css'
 
 const EditButton = (props) => {
   const currentUid = firebase.auth().currentUser.uid;
@@ -107,16 +108,14 @@ class UserProfile extends Component {
     const userListings=this.state.userListings;
     console.log(userListings)
     return(
-      <div className='container'>
-        <h1>user profile</h1>
-        <ul>
-          <li>{username}</li>
+      <div className='UserProfile'>
+        <h1>{username}</h1>
+        <img id='profile-photo' src={profileImageUrl} alt='profile'  />
+        <EditButton uid={uid} history={this.props.history} />
+        <ul id='profile-details'>
           <li>{Bio}</li>
-          <img src={profileImageUrl} alt='profile'  />
-          <EditButton uid={uid} history={this.props.history} />
-
-
         </ul>
+        <h1>Owned Listings</h1>
         <div className='row' style={{paddingLeft: '8%'}}>
             {
             userListings.map((userListing)=>(
@@ -124,8 +123,6 @@ class UserProfile extends Component {
             ))
           }
         </div>
-
-
       </div>
     )
   }

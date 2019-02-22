@@ -6,6 +6,7 @@ import * as Yup from 'yup';
 import * as firebase from 'firebase';
 import fileUpload from '../../assets/img/profile.png'
 
+const uuidv4 = require('uuid/v4');
 let selectedFile = '';
 
 class SignUp extends Component {
@@ -46,7 +47,7 @@ class SignUp extends Component {
     const handleProfilePhotoSubmit = (user) => {
       return new Promise((resolve, reject) => {
         const uid = user.uid;
-        const uploadTask = storageRef.child(`profile_images/${selectedFile.name}`).put(selectedFile); 
+        const uploadTask = storageRef.child(`profile_images/${uuidv4()}`).put(selectedFile); 
         uploadTask.then(snapshot => {
           return snapshot.ref.getDownloadURL();
       }).then(downloadURL => {

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import './Home.css';
-import background from '../../assets/img/home-background.jpg';
+import background from '../../assets/img/home-background.jpeg';
 import SearchBar from '../SearchBar/SearchBar';
 
 class Home extends Component {
@@ -16,7 +16,8 @@ class Home extends Component {
 
 const homeStyle = {
   backgroundImage: 'url(' + background + ')',
-  height: 91.8 +'vh',
+  backgroundPosition: 15 +'%',
+  height: 93 +'vh',
   width: 100 + '%',
   display: 'flex',
   flexDirection: 'column',

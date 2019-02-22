@@ -1,0 +1,18 @@
+#profile-photo{
+  width: 200px;
+  border-radius:10%
+}
+
+/* #profile-details{
+  float: right
+} */
+
+.UserProfile {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  height: 91.8vh;
+
+}
