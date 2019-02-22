@@ -54,10 +54,6 @@ class ApartmentListingForm extends Component {
     })
   }
 
-  handleGoBack = () => {
-    this.props.history.push("/")
-  }
-
   backToCreateSelection = (value) => {
     this.props.onCategoryForm(value)
   }
@@ -145,8 +141,8 @@ class ApartmentListingForm extends Component {
   render(){
     return(
       <div>
-        <div className="container">
-          <h1>Creat A {this.state.selectedCategory} Listing</h1>
+          <h2 className='create-page-header'>Create A {this.state.selectedCategory} Listing</h2>
+          <button className='btn btn-secondary back-categories-btn' onClick={()=>this.backToCreateSelection(null)}>Select Other Categories</button>
             <Formik 
               initialValues={{ address: '', title: '', desc: '', bedrooms: '', bathrooms: '', budget: '', deposit: '', startDate: '', preferredCity: '' }}
               onSubmit={this.handleCreateListing}
@@ -163,137 +159,141 @@ class ApartmentListingForm extends Component {
                 touched
                 }) => (
                   <form onSubmit={handleSubmit}>
+                  <div className='row create'>
                     <div className="image-upload">
-                    Choose 5 photos to upload for your listing. (The first photo will be the cover photo of your post.)
+                      <ul className='upload-img-txt'>
+                      <em>Choose 5 photos to upload for your listing (required)</em>
+                        <li>Click the photo icon on the right to choose photos</li>
+                        <li>The first photo will be the cover photo of your post</li>
+                      </ul>
                       <label htmlFor="file-input">
-                          <img id='clickable-img' src={photoUpload} alt="file upload icon"/>
+                          <img className='clickable-img' src={photoUpload} alt="file upload icon"/>
                       </label>
                       <input type='file' id="file-input" onChange={this.handleFileUploadChange} name='pic' className='' />
+                      <CondFilePreview files={this.state.files} />
                     </div>
+                      <div className='col-md-6'>
+                        <TextForm
+                          title='Please enter your address of your property:'
+                          label='Address'
+                          value={values.address}
+                          onChange={handleChange}
+                          onBlur={handleBlur}
+                          name='address'
+                          error={touched.address && errors.address}
+                          />
+                        <TextForm
+                          title='Title of your post'
+                          label='Title'
+                          value={values.title}
+                          onChange={handleChange}
+                          onBlur={handleBlur}
+                          name='title'
+                          error={touched.title && errors.title}
+                          />
+                        <TextForm
+                          title='Description of your property'
+                          value={values.desc}
+                          onChange={handleChange}
+                          onBlur={handleBlur}
+                          name='desc'
+                          error={touched.desc && errors.desc}
+                          />
+                        <label htmlFor="bedrooms">How many bedrooms does your property have?:</label>
+                        <select
+                          className="form-control" 
+                          id="bedrooms"
+                          value={values.bedrooms}
+                          onChange={handleChange}
+                          onBlur={handleBlur}
+                          name='bedrooms'
+                          >
+                          <option value=''>--</option>
+                          <option value='Studio'>Studio</option>
+                          <option value='1'>1</option>
+                          <option value='2'>2</option>
+                          <option value='3'>3</option>
+                          <option value='4'>4</option>
+                          <option value='5'>5</option>
+                        </select>
+                      </div>
 
-                    <CondFilePreview files={this.state.files} />
-
-                    <TextForm
-                      title='Please enter your address of your property:'
-                      label='Address'
-                      value={values.address}
-                      onChange={handleChange}
-                      onBlur={handleBlur}
-                      name='address'
-                      error={touched.address && errors.address}
-                      />
-                    <TextForm
-                      title='Title of your post'
-                      label='Title'
-                      value={values.title}
-                      onChange={handleChange}
-                      onBlur={handleBlur}
-                      name='title'
-                      error={touched.title && errors.title}
-                      />
-                    <TextForm
-                      title='Description of your property'
-                      value={values.desc}
-                      onChange={handleChange}
-                      onBlur={handleBlur}
-                      name='desc'
-                      error={touched.desc && errors.desc}
-                      />
-                    <label htmlFor="bedrooms">How many bedrooms does your property have?:</label>
-                    <select
-                      className="form-control" 
-                      id="bedrooms"
-                      value={values.bedrooms}
-                      onChange={handleChange}
-                      onBlur={handleBlur}
-                      name='bedrooms'
-                      >
-                      <option value=''>--</option>
-                      <option value='Studio'>Studio</option>
-                      <option value='1'>1</option>
-                      <option value='2'>2</option>
-                      <option value='3'>3</option>
-                      <option value='4'>4</option>
-                      <option value='5'>5</option>
-                    </select>
-                    <label htmlFor="bathrooms">How many bathrooms does your property have?:</label>
-                    <select
-                      className="form-control" 
-                      id="bathrooms"
-                      value={values.bathrooms}
-                      onChange={handleChange}
-                      onBlur={handleBlur}
-                      name='bathrooms'
-                      >
-                      <option value=''>--</option>
-                      <option value='1'>1</option>
-                      <option value='1.5'>1.5</option>
-                      <option value='2'>2</option>
-                      <option value='2.5'>2.5</option>
-                      <option value='3'>3</option>
-                      <option value='3.5'>3.5</option>
-                      <option value='4'>4</option>
-                      <option value='4.5'>4.5</option>
-                      <option value='5'>5</option>
-                    </select>
-                    <label htmlFor="preferredCity">Select Your City:</label>
-                    <select
-                      className="form-control" 
-                      id="preferredCity"
-                      value={values.preferredCity}
-                      onChange={handleChange}
-                      onBlur={handleBlur}
-                      name='preferredCity'
-                      >
-                      <option value=''>--</option>
-                      <option value='Boston'>Boston</option>
-                      <option value='New York City'>New York City</option>
-                      <option value='Toronto'>Toronto</option>
-                    </select>
-                    <TextForm
-                      title='Budget'
-                      label='Enter Budget($)'
-                      value={values.budget}
-                      type='number'
-                      onChange={handleChange}
-                      onBlur={handleBlur}
-                      name='budget'
-                      error={touched.budget && errors.budget}
-                      />
-                    <TextForm
-                      title='Deposit'
-                      label='Enter expected Deposit($)'
-                      value={values.deposit}
-                      type='number'
-                      onChange={handleChange}
-                      onBlur={handleBlur}
-                      name='deposit'
-                      error={touched.deposit && errors.deposit}
-                      />
-                      <label htmlFor='start-date'>Availability Starts: </label>
-                      <input 
-                        type='date'
-                        id='start-date'
-                        value={values.startDate}
-                        name='startDate'
-                        error={touched.startDate && errors.startDate}
-                        onChange={handleChange}
-                        onBlur={handleBlur}
-                         />
-                    <button
-                      type="submit"
-                      className="btn btn-success"
-                      >
-                      Submit
-                    </button>
+                      <div className='col-md-6'>
+                        <label htmlFor="bathrooms">How many bathrooms does your property have?:</label>
+                        <select
+                          className="form-control" 
+                          id="bathrooms"
+                          value={values.bathrooms}
+                          onChange={handleChange}
+                          onBlur={handleBlur}
+                          name='bathrooms'
+                          >
+                          <option value=''>--</option>
+                          <option value='1'>1</option>
+                          <option value='1.5'>1.5</option>
+                          <option value='2'>2</option>
+                          <option value='2.5'>2.5</option>
+                          <option value='3'>3</option>
+                          <option value='3.5'>3.5</option>
+                          <option value='4'>4</option>
+                          <option value='4.5'>4.5</option>
+                          <option value='5'>5</option>
+                        </select>
+                        <label htmlFor="preferredCity">Select Your City:</label>
+                        <select
+                          className="form-control" 
+                          id="preferredCity"
+                          value={values.preferredCity}
+                          onChange={handleChange}
+                          onBlur={handleBlur}
+                          name='preferredCity'
+                          >
+                          <option value=''>--</option>
+                          <option value='Boston'>Boston</option>
+                          <option value='New York City'>New York City</option>
+                          <option value='Toronto'>Toronto</option>
+                        </select>
+                        <TextForm
+                          title='Budget'
+                          label='Enter Budget($)'
+                          value={values.budget}
+                          type='number'
+                          onChange={handleChange}
+                          onBlur={handleBlur}
+                          name='budget'
+                          error={touched.budget && errors.budget}
+                          />
+                        <TextForm
+                          title='Deposit'
+                          label='Enter expected Deposit($)'
+                          value={values.deposit}
+                          type='number'
+                          onChange={handleChange}
+                          onBlur={handleBlur}
+                          name='deposit'
+                          error={touched.deposit && errors.deposit}
+                          />
+                          <label htmlFor='start-date'>Availability Starts: </label>
+                          <input 
+                            type='date'
+                            id='start-date'
+                            value={values.startDate}
+                            name='startDate'
+                            error={touched.startDate && errors.startDate}
+                            onChange={handleChange}
+                            onBlur={handleBlur}
+                            />
+                      </div>
+                    </div>
+                      <button
+                        type="submit"
+                        className="btn btn-success create-submit"
+                        >
+                        Submit
+                      </button>
                   </form>
                 )}
               />
-          <div className='buttons'>
-          <button className='btn btn-primary' onClick={this.handleGoBack}>Back</button>
-          <button className='btn btn-secondary' onClick={()=>this.backToCreateSelection(null)}>Categories</button>
-          </div>
-        </div>
       </div>
     );
   }

@@ -34,3 +34,44 @@ padding-left: 15%;
 #creat-listing-title{
   margin-bottom: 50px;
 }
+
+#second-half-form {
+  display: flexbox;
+}
+
+.create-page-header {
+  display: inline;
+  margin-left: 33%;
+}
+
+button.btn.btn-success.create-submit {
+  margin-left: 37%;
+  width: 400px;
+  margin-top: 10px
+}
+
+.clickable-img {
+  float: right;
+  width: 200px;
+  margin-left: 50px
+}
+
+.upload-img-txt {
+  float: left;
+  margin-top: 50px;
+  margin-left: 200px
+}
+
+.row.create {
+  background-color: blanchedalmond;
+  margin: 150px;
+  margin-top: 20px;
+  margin-bottom: 0px;
+  padding-left: 100px;
+  padding-bottom: 30px;
+  border-radius: 8px
+}
+
+button.btn.btn-secondary.back-categories-btn{
+  margin-left: 160px
+}

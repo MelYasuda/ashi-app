@@ -8,11 +8,11 @@ const SavedListingsDisplay = (props) => {
       return(
         <div className='row' style={{paddingLeft: '8%'}}>
           {
-            props.savedListings.map( (likedListing, index)=>(
+            props.savedListings.map( (savedListing, index)=>(
                 <Listing 
                 renderAfterUnsave={props.renderAfterUnsave} 
                 key={index} 
-                value={likedListing} 
+                value={savedListing} 
                 saved={props.saved} 
                 history={props.history}
                 handdleToggleSaveButton={props.handdleToggleSaveButton}
